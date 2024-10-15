@@ -239,5 +239,30 @@ public class AdminServiceImpl implements AdminService{
         return contractRepository.findAll().stream().map(Contract::getContractDto).collect(Collectors.toList());
     }
 
+    @Override
+    public ContractDto updateContract(Long id, ContractDto contractDto) {
+        Optional<Car> optionalCar = carRepository.findById(contractDto.getCarId());
+        Optional<Contract> optionalContract = contractRepository.findById(id);
+        if (optionalCar.isPresent() && optionalCar.isPresent()){
+            Contract contract = optionalContract.get();
+            contract.setCar(optionalCar.get());
+            contract.setDeposit(contractDto.getDeposit());
+            contract.setPaymentMethod(contractDto.getPaymentMethod());
+            contract.setLessorName(contractDto.getLessorName());
+            contract.setLesseeAddress(contractDto.getLesseeAddress());
+            contract.setReturnLocation(contractDto.getReturnLocation());
+            contract.setAdditionalTerms(contract.getAdditionalTerms());
+            contract.setRentalStartDate(contractDto.getRentalStartDate());
+            contract.setPickupLocation(contractDto.getPickupLocation());
+            contract.setLesseeIdCard(contract.getLesseeIdCard());
+            contract.setRentalPricePerDay(contractDto.getRentalPricePerDay());
+            contract.setPaid(contractDto.isPaid());
+            contract.setLesseePhone(contractDto.getLesseePhone());
+            return contractRepository.save(contract).getContractDto();
+
+        }
+        return null;
+    }
+
 
 }

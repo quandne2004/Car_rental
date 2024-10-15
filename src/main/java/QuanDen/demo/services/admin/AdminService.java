@@ -37,4 +37,6 @@ public interface AdminService {
     ContractDto postContractDto(Long carId,ContractDto contractDto);
 
     List<ContractDto> getAllListContract();
+
+    ContractDto updateContract(Long id,ContractDto contractDto);
 }

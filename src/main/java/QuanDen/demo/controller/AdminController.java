@@ -140,7 +140,7 @@ public class AdminController {
     }
 
 
-    @PostMapping("/contract")
+    @PostMapping("/contract/{carId}")
     public ResponseEntity<ContractDto> postContract(@PathVariable Long carId,@ModelAttribute ContractDto contractDto){
         ContractDto contractDto1 = adminService.postContractDto(carId,contractDto);
         if (contractDto1 == null){
@@ -156,14 +156,13 @@ public class AdminController {
         return ResponseEntity.ok(contractDtos);
     }
 
-
-
-
-
-
-
-
-
-
-
+    @PutMapping("/update/contract/{contractId}")
+    public ResponseEntity<ContractDto> updateContract(@PathVariable Long contractId,@RequestBody ContractDto contractDto){
+        ContractDto contractDto1 = adminService.updateContract(contractId,contractDto);
+        if (contractDto1 == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(contractDto1);
+        }
+    }
 }
