@@ -150,6 +150,12 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/contract/list")
+    public ResponseEntity<List<ContractDto>> getContract(){
+        List<ContractDto> contractDtos = adminService.getAllListContract();
+        return ResponseEntity.ok(contractDtos);
+    }
+
 
 
 

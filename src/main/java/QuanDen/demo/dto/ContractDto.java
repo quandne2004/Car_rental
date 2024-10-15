@@ -35,6 +35,9 @@ public class ContractDto {
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;  // Tham chiếu đến entity Car
 
+
+    private Long carId;
+    private String carName;
     // Thời gian thuê
     @Column(name = "rental_start_date", nullable = false)
     private LocalDate rentalStartDate;  // Ngày bắt đầu thuê

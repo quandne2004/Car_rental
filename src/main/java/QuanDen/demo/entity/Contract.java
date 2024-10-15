@@ -1,6 +1,7 @@
 package QuanDen.demo.entity;
 
 
+import QuanDen.demo.dto.ContractDto;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -78,5 +79,28 @@ public class Contract {
     private String additionalTerms;  // Các điều khoản khác
 
 
+
+    public ContractDto getContractDto(){
+        ContractDto contractDto = new ContractDto();
+        contractDto.setId(id);
+        contractDto.setCarId(car.getId());
+        contractDto.setLesseeName(lesseeName);
+        contractDto.setLesseeAddress(lesseeAddress);
+        contractDto.setPaid(isPaid);
+        contractDto.setLesseePhone(lesseePhone);
+        contractDto.setInsuranceDetails(insuranceDetails);
+        contractDto.setDeposit(deposit);
+        contractDto.setPaymentMethod(paymentMethod);
+        contractDto.setRentalEndDate(rentalEndDate);
+        contractDto.setCar(car);
+        contractDto.setRentalPricePerDay(rentalPricePerDay);
+        contractDto.setRentalStartDate(rentalStartDate);
+        contractDto.setCancellationPolicy(cancellationPolicy);
+        contractDto.setPickupLocation(pickupLocation);
+        contractDto.setAdditionalTerms(additionalTerms);
+        contractDto.setReturnLocation(returnLocation);
+        return contractDto;
+
+    }
 
 }

@@ -234,8 +234,10 @@ public class AdminServiceImpl implements AdminService{
         return null;
     }
 
-
-
+    @Override
+    public List<ContractDto> getAllListContract() {
+        return contractRepository.findAll().stream().map(Contract::getContractDto).collect(Collectors.toList());
+    }
 
 
 }
