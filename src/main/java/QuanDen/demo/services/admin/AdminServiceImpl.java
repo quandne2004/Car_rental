@@ -207,15 +207,35 @@ public class AdminServiceImpl implements AdminService{
         return optionalCarFix.map(CarFix::getCarFixDto).orElse(null);
     }
 
-
-
-
     @Override
-    public boolean postContract(ContractDto contractDto) throws IOException {
-
-
-        return false;
+    public ContractDto postContractDto(Long carId, ContractDto contractDto) {
+        Optional<Car> optionalCar = carRepository.findById(carId);
+        if (optionalCar.isPresent()){
+            Contract contract = new Contract();
+            contract.setCar(optionalCar.get());
+            contract.setInsuranceDetails(contractDto.getInsuranceDetails());
+            contract.setLesseePhone(contractDto.getLesseePhone());
+            contract.setLesseeAddress(contractDto.getLesseeAddress());
+            contract.setPaymentMethod(contractDto.getPaymentMethod());
+            contract.setLessorName(contractDto.getLessorName());
+            contract.setRentalEndDate(contractDto.getRentalEndDate());
+            contract.setRentalPricePerDay(contractDto.getRentalPricePerDay());
+            contract.setDeposit(contractDto.getDeposit());
+            contract.setCancellationPolicy(contractDto.getCancellationPolicy());
+            contract.setAdditionalTerms(contractDto.getAdditionalTerms());
+            contract.setPickupLocation(contractDto.getPickupLocation());
+            contract.setRentalStartDate(contractDto.getRentalStartDate());
+            contract.setReturnLocation(contractDto.getReturnLocation());
+            Contract contract1 = contractRepository.save(contract);
+            ContractDto contractDto1 = new ContractDto();
+            contractDto1.setId(contract1.getId());
+            return contractDto1;
+        }
+        return null;
     }
+
+
+
 
 
 }

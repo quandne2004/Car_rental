@@ -140,6 +140,17 @@ public class AdminController {
     }
 
 
+    @PostMapping("/contract")
+    public ResponseEntity<ContractDto> postContract(@PathVariable Long carId,@ModelAttribute ContractDto contractDto){
+        ContractDto contractDto1 = adminService.postContractDto(carId,contractDto);
+        if (contractDto1 == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(contractDto1);
+        }
+    }
+
+
 
 
 

@@ -33,6 +33,6 @@ public interface AdminService {
 
     CarFixDto getCarFixById(Long carFixId);
 
-    boolean postContract(ContractDto contractDto) throws IOException;
 
+    ContractDto postContractDto(Long carId,ContractDto contractDto);
 }
