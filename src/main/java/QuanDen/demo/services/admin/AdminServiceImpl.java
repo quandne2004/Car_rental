@@ -226,9 +226,12 @@ public class AdminServiceImpl implements AdminService{
             contract.setPickupLocation(contractDto.getPickupLocation());
             contract.setRentalStartDate(contractDto.getRentalStartDate());
             contract.setReturnLocation(contractDto.getReturnLocation());
+            contract.setLesseeName(contractDto.getLesseeName());
+            contract.setLesseeIdCard(contractDto.getLesseeIdCard());
             Contract contract1 = contractRepository.save(contract);
             ContractDto contractDto1 = new ContractDto();
             contractDto1.setId(contract1.getId());
+
             return contractDto1;
         }
         return null;

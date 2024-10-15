@@ -6,7 +6,6 @@ import QuanDen.demo.services.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -141,7 +140,7 @@ public class AdminController {
 
 
     @PostMapping("/contract/{carId}")
-    public ResponseEntity<ContractDto> postContract(@PathVariable Long carId,@ModelAttribute ContractDto contractDto){
+    public ResponseEntity<ContractDto> postContract(@PathVariable Long carId,@RequestBody ContractDto contractDto){
         ContractDto contractDto1 = adminService.postContractDto(carId,contractDto);
         if (contractDto1 == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

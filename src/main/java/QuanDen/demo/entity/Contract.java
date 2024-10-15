@@ -18,52 +18,52 @@ public class Contract {
     private Long id;
 
     // Thông tin các bên
-    @Column(name = "lessor_name", nullable = false)
+    @Column(name = "lessor_name", nullable = true)
     private String lessorName;  // Tên bên cho thuê
 
-    @Column(name = "lessee_name", nullable = false)
+    @Column(name = "lessee_name", nullable = true)
     private String lesseeName;  // Tên bên thuê
 
-    @Column(name = "lessee_id_card", nullable = false)
+    @Column(name = "lessee_id_card", nullable = true)
     private String lesseeIdCard;  // CMND/CCCD bên thuê
 
-    @Column(name = "lessee_address", nullable = false)
+    @Column(name = "lessee_address", nullable = true)
     private String lesseeAddress;  // Địa chỉ bên thuê
 
-    @Column(name = "lessee_phone", nullable = false)
+    @Column(name = "lessee_phone", nullable = true)
     private String lesseePhone;  // Số điện thoại bên thuê
 
     // Thông tin về xe (liên kết với entity Car)
     @ManyToOne
-    @JoinColumn(name = "car_id", nullable = false)
+    @JoinColumn(name = "car_id", nullable = true)
     private Car car;  // Tham chiếu đến entity Car
 
     // Thời gian thuê
-    @Column(name = "rental_start_date", nullable = false)
+    @Column(name = "rental_start_date", nullable = true)
     private LocalDate rentalStartDate;  // Ngày bắt đầu thuê
 
-    @Column(name = "rental_end_date", nullable = false)
+    @Column(name = "rental_end_date", nullable = true)
     private LocalDate rentalEndDate;  // Ngày kết thúc thuê
 
     // Địa điểm giao nhận xe
-    @Column(name = "pickup_location", nullable = false)
+    @Column(name = "pickup_location", nullable = true)
     private String pickupLocation;  // Địa điểm nhận xe
 
-    @Column(name = "return_location", nullable = false)
+    @Column(name = "return_location", nullable = true)
     private String returnLocation;  // Địa điểm trả xe
 
     // Giá thuê và các khoản phí
-    @Column(name = "rental_price_per_day", nullable = false)
+    @Column(name = "rental_price_per_day", nullable = true)
     private double rentalPricePerDay;  // Giá thuê mỗi ngày
 
-    @Column(name = "deposit", nullable = false)
+    @Column(name = "deposit", nullable = true)
     private double deposit;  // Tiền đặt cọc
 
     // Điều khoản thanh toán
-    @Column(name = "payment_method", nullable = false)
+    @Column(name = "payment_method", nullable = true)
     private String paymentMethod;  // Phương thức thanh toán
 
-    @Column(name = "is_paid", nullable = false)
+    @Column(name = "is_paid", nullable = true)
     private boolean isPaid;  // Trạng thái thanh toán
 
     // Trách nhiệm pháp lý và bảo hiểm
@@ -92,7 +92,6 @@ public class Contract {
         contractDto.setDeposit(deposit);
         contractDto.setPaymentMethod(paymentMethod);
         contractDto.setRentalEndDate(rentalEndDate);
-        contractDto.setCar(car);
         contractDto.setRentalPricePerDay(rentalPricePerDay);
         contractDto.setRentalStartDate(rentalStartDate);
         contractDto.setCancellationPolicy(cancellationPolicy);
