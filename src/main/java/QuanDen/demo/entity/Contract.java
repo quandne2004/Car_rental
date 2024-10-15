@@ -4,6 +4,7 @@ package QuanDen.demo.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -15,74 +16,67 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Information about the Lessor
-    private String lessorName;
-    private String lessorAddress;
-    private String lessorTaxCode;
-    private String lessorPhone;
-    private String lessorEmail;
-    private String lessorRepresentative;
+    // Thông tin các bên
+    @Column(name = "lessor_name", nullable = false)
+    private String lessorName;  // Tên bên cho thuê
 
-    // Information about the Lessee
-    private String lesseeName;
-    private String lesseeAddress;
-    private String lesseeIdentityCard;
-    private String lesseePhone;
-    private String lesseeEmail;
-    private String lesseeRepresentative;
+    @Column(name = "lessee_name", nullable = false)
+    private String lesseeName;  // Tên bên thuê
 
-    // Vehicle information
-    private String carType;
-    private String carBrand;
-    private String carColor;
-    private String chassisNumber;
-    private String engineNumber;
-    private String licensePlate;
-    private String carCondition;
-    private Date manufacturingDate;
-    private Long kilometersDriven;
+    @Column(name = "lessee_id_card", nullable = false)
+    private String lesseeIdCard;  // CMND/CCCD bên thuê
 
-    // Rental duration
-    private Date rentalStartDate;
-    private Date rentalEndDate;
-    private Date handoverDate;
-    private Date returnDate;
+    @Column(name = "lessee_address", nullable = false)
+    private String lesseeAddress;  // Địa chỉ bên thuê
 
-    // Rental fees
-    private Double rentalPricePerDay;
-    private Double totalRentalAmount;
-    private Double depositAmount;
-    private String paymentMethod;
+    @Column(name = "lessee_phone", nullable = false)
+    private String lesseePhone;  // Số điện thoại bên thuê
 
-    // Insurance terms
-    private String insuranceResponsibility;
-    private String insuranceDetails;
-    private String accidentResponsibility;
+    // Thông tin về xe (liên kết với entity Car)
+    @ManyToOne
+    @JoinColumn(name = "car_id", nullable = false)
+    private Car car;  // Tham chiếu đến entity Car
 
-    // Maintenance and repair terms
-    private String maintenanceResponsibility;
-    private String repairTerms;
+    // Thời gian thuê
+    @Column(name = "rental_start_date", nullable = false)
+    private LocalDate rentalStartDate;  // Ngày bắt đầu thuê
 
-    // Usage restrictions
-    private String allowedUsageArea;
-    private Long mileageLimit;
-    private String usagePurpose;
+    @Column(name = "rental_end_date", nullable = false)
+    private LocalDate rentalEndDate;  // Ngày kết thúc thuê
 
-    // Commitments and responsibilities
-    private String vehiclePreservationCommitment;
-    private String resaleOrSubleaseRights;
-    private String vehicleConditionCommitment;
+    // Địa điểm giao nhận xe
+    @Column(name = "pickup_location", nullable = false)
+    private String pickupLocation;  // Địa điểm nhận xe
 
-    // Penalties and contract termination
-    private String contractTerminationTerms;
-    private String penaltyAmount;
+    @Column(name = "return_location", nullable = false)
+    private String returnLocation;  // Địa điểm trả xe
 
-    // Dispute resolution
-    private String disputeResolutionMethod;
+    // Giá thuê và các khoản phí
+    @Column(name = "rental_price_per_day", nullable = false)
+    private double rentalPricePerDay;  // Giá thuê mỗi ngày
 
-    // Signatures
-    private String lessorSignature;
-    private String lesseeSignature;
-    private String seal;
+    @Column(name = "deposit", nullable = false)
+    private double deposit;  // Tiền đặt cọc
+
+    // Điều khoản thanh toán
+    @Column(name = "payment_method", nullable = false)
+    private String paymentMethod;  // Phương thức thanh toán
+
+    @Column(name = "is_paid", nullable = false)
+    private boolean isPaid;  // Trạng thái thanh toán
+
+    // Trách nhiệm pháp lý và bảo hiểm
+    @Column(name = "insurance_details", nullable = true)
+    private String insuranceDetails;  // Thông tin bảo hiểm (nếu có)
+
+    // Điều khoản hủy bỏ hợp đồng
+    @Column(name = "cancellation_policy", nullable = true)
+    private String cancellationPolicy;  // Chính sách hủy hợp đồng
+
+    // Các trường khác
+    @Column(name = "additional_terms", nullable = true)
+    private String additionalTerms;  // Các điều khoản khác
+
+
 
 }

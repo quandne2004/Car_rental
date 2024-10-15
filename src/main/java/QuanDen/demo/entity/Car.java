@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,6 +29,8 @@ public class Car {
     private byte[] image;
     private Long numberSeat;
     private String carOwner;
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    private List<Contract> rentalContracts;
 
     public CarDto getCarDto(){
         CarDto carDto = new CarDto();
