@@ -164,4 +164,12 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.OK).body(contractDto1);
         }
     }
+
+
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Void> deleteContract(@PathVariable Long id){
+        adminService.deleteContract(id);
+        return ResponseEntity.noContent().build();
+    }
 }

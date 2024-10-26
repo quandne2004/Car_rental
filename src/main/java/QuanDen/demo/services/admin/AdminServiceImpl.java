@@ -267,5 +267,10 @@ public class AdminServiceImpl implements AdminService{
         return null;
     }
 
+    @Override
+    public void deleteContract(Long id) {
+        contractRepository.deleteById(id);
+    }
+
 
 }

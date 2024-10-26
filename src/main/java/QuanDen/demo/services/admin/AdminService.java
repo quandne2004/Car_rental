@@ -39,4 +39,6 @@ public interface AdminService {
     List<ContractDto> getAllListContract();
 
     ContractDto updateContract(Long id,ContractDto contractDto);
+
+    void deleteContract(Long id);
 }
