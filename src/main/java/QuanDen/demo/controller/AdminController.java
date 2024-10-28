@@ -172,4 +172,24 @@ public class AdminController {
         adminService.deleteContract(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
+    @PostMapping("/rental")
+    public ResponseEntity<RentalContractDto> postRental(@RequestBody RentalContractDto rentalContractDto){
+        RentalContractDto rentalContractDto1 = adminService.postContractDto(rentalContractDto);
+        if (rentalContractDto1 == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(rentalContractDto1);
+        }
+    }
+
+
+
+    @GetMapping("/rental")
+    public ResponseEntity<List<RentalContractDto>> getAllRental(){
+        List<RentalContractDto> list = adminService.getAllContractRental();
+        return ResponseEntity.ok().body(list);
+    }
 }
