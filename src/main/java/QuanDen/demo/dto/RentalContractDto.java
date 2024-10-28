@@ -18,6 +18,7 @@ public class RentalContractDto {
     private String customerEmail;
 
     // Thông tin xe thuê
+    private Long CarId;
     private String carName;
     private String carBrand;
 
@@ -27,6 +28,8 @@ public class RentalContractDto {
 
     private String carColor;
 
+
+    private Long bookACarId;
     private String paymentMethod;
     private String maintenanceTerms;
     private String usageTerms;

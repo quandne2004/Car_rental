@@ -4,43 +4,18 @@ package QuanDen.demo.entity;
 import QuanDen.demo.dto.RentalContractDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.Id;
 
 @Entity
+@Data
 @Table(name = "rental_contract")
 public class RentalContract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // Thông tin hợp đồng
-    @Column(name = "contract_code")
-    private String contractCode;
-
-    @Column(name = "rental_duration")
-    private String rentalDuration;
-
-    @Column(name = "rental_price")
-    private Double rentalPrice;
-
-    // Thông tin bên thuê
-    @Column(name = "customer_name")
-    private String customerName;
-
-    @Column(name = "customer_id_number")
-    private String customerIdNumber;
-
-    @Column(name = "customer_address")
-    private String customerAddress;
-
-    @Column(name = "customer_phone")
-    private String customerPhone;
-
-    @Column(name = "customer_email")
-    private String customerEmail;
-
 
 
     // Các điều khoản và điều kiện thuê
@@ -50,8 +25,6 @@ public class RentalContract {
     @Column(name = "usage_terms", length = 500)
     private String usageTerms;
 
-    @Column(name = "compensation_terms", length = 500)
-    private String compensationTerms;
 
     @Column(name = "termination_terms", length = 500)
     private String terminationTerms;
@@ -77,6 +50,7 @@ public class RentalContract {
     private User user;
 
 
+
     public RentalContractDto getRentalContractDto(){
         RentalContractDto rentalContractDto = new RentalContractDto();
 
@@ -93,6 +67,8 @@ public class RentalContract {
         rentalContractDto.setYearOfManufacture(car.getYear());
         rentalContractDto.setCarName(car.getName());
         rentalContractDto.setUsageTerms(usageTerms);
+        rentalContractDto.setCarId(car.getId());
+        rentalContractDto.setBookACarId(bookACar.getId());
         return rentalContractDto;
     }
 
