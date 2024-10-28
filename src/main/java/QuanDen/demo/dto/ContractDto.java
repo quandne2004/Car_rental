@@ -54,7 +54,6 @@ public class ContractDto {
 
     // Điều khoản hủy bỏ hợp đồng
     private String cancellationPolicy;  // Chính sách hủy hợp đồng
-
-    // Các trường khác
     private String additionalTerms;  // Các điều khoản khác
+
 }

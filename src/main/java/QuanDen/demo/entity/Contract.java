@@ -79,12 +79,18 @@ public class Contract {
     private String additionalTerms;  // Các điều khoản khác
 
 
+    @Column(name = "car_name",nullable = true)
+    private String carName;
+
 
     public ContractDto getContractDto(){
         ContractDto contractDto = new ContractDto();
         contractDto.setId(id);
         contractDto.setCarId(car.getId());
+        contractDto.setCarName(car.getName());
         contractDto.setLesseeName(lesseeName);
+        contractDto.setLessorName(lessorName);
+        contractDto.setLesseeIdCard(lesseeIdCard);
         contractDto.setLesseeAddress(lesseeAddress);
         contractDto.setPaid(isPaid);
         contractDto.setLesseePhone(lesseePhone);

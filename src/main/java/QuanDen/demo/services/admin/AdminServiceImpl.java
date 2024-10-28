@@ -30,6 +30,8 @@ public class AdminServiceImpl implements AdminService{
     private final PaymentCarFixRepository paymentCarFixRepository;
     private final ContractRepository contractRepository;
 
+    private final RentalCarRepository rentalCarRepository;
+
     @Override
     public boolean postCar(CarDto carDto) throws IOException {
    try{
