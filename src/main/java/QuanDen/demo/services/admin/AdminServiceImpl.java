@@ -279,13 +279,10 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public RentalContractDto postContractDto(RentalContractDto rentalContractDto){
-        Optional<Car> optionalCar = carRepository.findById(rentalContractDto.getCarId());
-        Optional<User> optionalUser = userRepository.findById(rentalContractDto.getCustomerIdNumber());
+
         Optional<BookACar> optionalBookACar = bookACarRepository.findById(rentalContractDto.getBookACarId());
-        if (optionalCar.isPresent() && optionalUser.isPresent() && optionalBookACar.isPresent()){
+        if (optionalBookACar.isPresent()){
             RentalContract rentalContract = new RentalContract();
-            rentalContract.setCar(optionalCar.get());
-            rentalContract.setUser(optionalUser.get());
             rentalContract.setBookACar(optionalBookACar.get());
             rentalContract.setMaintenanceTerms(rentalContractDto.getMaintenanceTerms());
             rentalContract.setTerminationTerms(rentalContractDto.getTerminationTerms());

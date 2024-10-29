@@ -11,26 +11,12 @@ public class RentalContractDto {
 
     private Long id;
 
-    private String customerName;
-
-    private Long customerIdNumber;
-
-    private String customerEmail;
-
-    // Thông tin xe thuê
-    private Long CarId;
-    private String carName;
-    private String carBrand;
-
-    private String carModel;
-
-    private Date yearOfManufacture;
-
-    private String carColor;
-
-
     private Long bookACarId;
     private String paymentMethod;
+    private Date BookACarfromDate;
+    private Date BookACartoDate;
+    private Long BookACarDays;
+    private Long BookACarPrice;
     private String maintenanceTerms;
     private String usageTerms;
     private String terminationTerms;

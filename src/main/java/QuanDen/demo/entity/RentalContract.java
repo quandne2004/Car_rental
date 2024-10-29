@@ -35,38 +35,20 @@ public class RentalContract {
     private BookACar bookACar;
 
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "car_id",nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Car car;
-
-
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "user_id",nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private User user;
-
 
 
     public RentalContractDto getRentalContractDto(){
         RentalContractDto rentalContractDto = new RentalContractDto();
-
         rentalContractDto.setId(id);
-        rentalContractDto.setCarColor(car.getColor());
-        rentalContractDto.setCarBrand(car.getBrand());
-        rentalContractDto.setCarModel(car.getType());
-        rentalContractDto.setCustomerEmail(user.getEmail());
-        rentalContractDto.setCustomerName(user.getName());
-        rentalContractDto.setCustomerIdNumber(user.getId());
+        rentalContractDto.setBookACarDays(bookACar.getDays());
+        rentalContractDto.setBookACarfromDate(bookACar.getFromDate());
+        rentalContractDto.setBookACartoDate(bookACar.getToDate());
+        rentalContractDto.setBookACarPrice(bookACar.getPrice());
+        rentalContractDto.setBookACarId(bookACar.getId());
         rentalContractDto.setPaymentMethod(bookACar.getPayment());
         rentalContractDto.setMaintenanceTerms(maintenanceTerms);
         rentalContractDto.setTerminationTerms(terminationTerms);
-        rentalContractDto.setYearOfManufacture(car.getYear());
-        rentalContractDto.setCarName(car.getName());
         rentalContractDto.setUsageTerms(usageTerms);
-        rentalContractDto.setCarId(car.getId());
         rentalContractDto.setBookACarId(bookACar.getId());
         return rentalContractDto;
     }
