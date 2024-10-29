@@ -26,11 +26,7 @@ public class RentalContract {
     @Column(name = "usage_terms", length = 500)
     private String usageTerms;
 
-    private String carName;
-    private String carColor;
-    private Date carYear;
-    private String userName;
-    private String userEmail;
+
 
     @Column(name = "termination_terms", length = 500)
     private String terminationTerms;
