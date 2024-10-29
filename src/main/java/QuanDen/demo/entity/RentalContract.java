@@ -8,6 +8,8 @@ import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.Date;
+
 @Entity
 @Data
 @Table(name = "rental_contract")
@@ -24,6 +26,11 @@ public class RentalContract {
     @Column(name = "usage_terms", length = 500)
     private String usageTerms;
 
+    private String carName;
+    private String carColor;
+    private Date carYear;
+    private String userName;
+    private String userEmail;
 
     @Column(name = "termination_terms", length = 500)
     private String terminationTerms;
@@ -50,6 +57,11 @@ public class RentalContract {
         rentalContractDto.setTerminationTerms(terminationTerms);
         rentalContractDto.setUsageTerms(usageTerms);
         rentalContractDto.setBookACarId(bookACar.getId());
+        rentalContractDto.setCarName(bookACar.getCar().getName());
+        rentalContractDto.setCarColor(bookACar.getCar().getColor());
+        rentalContractDto.setCarYear(bookACar.getCar().getYear());
+        rentalContractDto.setUserName(bookACar.getUser().getName());
+        rentalContractDto.setUserEmail(bookACar.getUser().getEmail());
         return rentalContractDto;
     }
 
