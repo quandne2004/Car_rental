@@ -195,9 +195,9 @@ public class AdminController {
     }
 
 
-    @GetMapping("/rental/{id}")
-    public ResponseEntity<RentalContractDto> getRentalContractById(@PathVariable Long id){
-        RentalContractDto rentalContractDto = adminService.getRentalContractById(id);
+    @GetMapping("/rental/{rentalContractId}")
+    public ResponseEntity<RentalContractDto> getRentalContractById(@PathVariable Long rentalContractId){
+        RentalContractDto rentalContractDto = adminService.getRentalContractById(rentalContractId);
         return ResponseEntity.status(HttpStatus.OK).body(rentalContractDto);
     }
 }
