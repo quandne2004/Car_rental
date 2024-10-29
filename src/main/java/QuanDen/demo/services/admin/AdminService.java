@@ -44,4 +44,5 @@ public interface AdminService {
 
     RentalContractDto postContractDto(RentalContractDto rentalContractDto);
     List<RentalContractDto> getAllContractRental();
+    RentalContractDto getRentalContractById(Long id);
 }

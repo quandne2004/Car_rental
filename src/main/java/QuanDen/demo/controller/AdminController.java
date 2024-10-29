@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -191,5 +192,12 @@ public class AdminController {
     public ResponseEntity<List<RentalContractDto>> getAllRental(){
         List<RentalContractDto> list = adminService.getAllContractRental();
         return ResponseEntity.ok().body(list);
+    }
+
+
+    @GetMapping("/rental/{id}")
+    public ResponseEntity<RentalContractDto> getRentalContractById(@PathVariable Long id){
+        RentalContractDto rentalContractDto = adminService.getRentalContractById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(rentalContractDto);
     }
 }

@@ -302,4 +302,12 @@ public class AdminServiceImpl implements AdminService{
     }
 
 
+
+    @Override
+    public RentalContractDto getRentalContractById(Long id){
+        Optional<RentalContract> rentalContract = rentalCarRepository.findById(id);
+        return rentalContract.map(RentalContract::getRentalContractDto).orElse(null);
+    }
+
+
 }
