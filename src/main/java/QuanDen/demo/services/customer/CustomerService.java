@@ -29,4 +29,5 @@ public interface CustomerService {
     List<PaymentCarFixDto> getAllPaymentByUserId(Long userId);
 
     CarFixDto getCarFixById(Long carFixId);
+    RentalContractDto getRentalContractById(Long id);
 }

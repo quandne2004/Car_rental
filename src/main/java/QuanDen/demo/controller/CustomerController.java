@@ -112,5 +112,12 @@ public class CustomerController {
     }
 
 
+
+    @GetMapping("/rentalContract/{id}")
+    public ResponseEntity<?> getRentalContractById(@PathVariable Long id){
+        RentalContractDto rentalContractDto = customerService.getRentalContractById(id);
+        return ResponseEntity.ok(rentalContractDto);
+    }
+
    
 }

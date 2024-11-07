@@ -184,4 +184,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
+
+    @Override
+    public RentalContractDto getRentalContractById(Long id){
+        Optional<RentalContract> optional = rentalCarRepository.findById(id);
+        return optional.map(RentalContract::getRentalContractDto).orElse(null);
+    }
+
 }
