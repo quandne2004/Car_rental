@@ -119,5 +119,16 @@ public class CustomerController {
         return ResponseEntity.ok(rentalContractDto);
     }
 
+
+    @GetMapping("/rentalContract/{rentalContractId}/{status}")
+    public ResponseEntity<?> changeRentalStatus(@PathVariable Long rentalContractId,@PathVariable String status){
+        boolean success = customerService.changeRentalContractStatus(rentalContractId,status);
+        if (success){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
    
 }

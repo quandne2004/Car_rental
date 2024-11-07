@@ -2,6 +2,7 @@ package QuanDen.demo.entity;
 
 
 import QuanDen.demo.dto.RentalContractDto;
+import QuanDen.demo.enums.RentalContractStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class RentalContract {
     private String usageTerms;
 
 
+    private RentalContractStatus rentalContractStatus;
 
     @Column(name = "termination_terms", length = 500)
     private String terminationTerms;

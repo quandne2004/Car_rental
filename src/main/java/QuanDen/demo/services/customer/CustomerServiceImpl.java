@@ -5,6 +5,7 @@ import QuanDen.demo.entity.*;
 import QuanDen.demo.enums.BookCarStatus;
 import QuanDen.demo.enums.CarFixStatus;
 import QuanDen.demo.enums.CarStatus;
+import QuanDen.demo.enums.RentalContractStatus;
 import QuanDen.demo.repository.*;
 import QuanDen.demo.services.admin.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -189,6 +191,24 @@ public class CustomerServiceImpl implements CustomerService {
     public RentalContractDto getRentalContractById(Long id){
         Optional<RentalContract> optional = rentalCarRepository.findById(id);
         return optional.map(RentalContract::getRentalContractDto).orElse(null);
+    }
+
+
+
+    @Override
+    public boolean changeRentalContractStatus(Long rentalContractId,String status){
+        Optional<RentalContract> optional = rentalCarRepository.findById(rentalContractId);
+        if (optional.isPresent()){
+            RentalContract rentalContract = optional.get();
+            if (Objects.equals(status,"Accept")){
+                rentalContract.setRentalContractStatus(RentalContractStatus.ACCEPT);
+            }else {
+                rentalContract.setRentalContractStatus(RentalContractStatus.REJECT);
+                rentalCarRepository.save(rentalContract);
+            }
+            return true;
+        }
+        return false;
     }
 
 }
