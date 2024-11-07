@@ -7,6 +7,7 @@ import QuanDen.demo.enums.BookCarStatus;
 import QuanDen.demo.enums.CarFixStatus;
 import QuanDen.demo.enums.CarStatus;
 import QuanDen.demo.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -248,7 +249,7 @@ public class AdminServiceImpl implements AdminService{
     public ContractDto updateContract(Long id, ContractDto contractDto) {
         Optional<Car> optionalCar = carRepository.findById(contractDto.getCarId());
         Optional<Contract> optionalContract = contractRepository.findById(id);
-        if (optionalCar.isPresent() && optionalCar.isPresent()){
+        if (optionalCar.isPresent() && optionalContract.isPresent()){
             Contract contract = optionalContract.get();
             contract.setCar(optionalCar.get());
             contract.setDeposit(contractDto.getDeposit());
@@ -304,9 +305,10 @@ public class AdminServiceImpl implements AdminService{
 
 
     @Override
-    public RentalContractDto getRentalContractById(Long rentalContractId){
-        Optional<RentalContract> rentalContract = rentalCarRepository.findById(rentalContractId);
-        return rentalContract.map(RentalContract::getRentalContractDto).orElse(null);
+    public RentalContractDto getRentalContractById(Long rentalContractId) {
+        RentalContract rentalContract = rentalCarRepository.findById(rentalContractId)
+                .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy hợp đồng thuê xe với ID: " + rentalContractId));
+        return rentalContract.getRentalContractDto();
     }
 
 

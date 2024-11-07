@@ -6,6 +6,7 @@ import QuanDen.demo.enums.BookCarStatus;
 import QuanDen.demo.enums.CarFixStatus;
 import QuanDen.demo.enums.CarStatus;
 import QuanDen.demo.repository.*;
+import QuanDen.demo.services.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -30,6 +31,8 @@ public class CustomerServiceImpl implements CustomerService {
     private final CarFixRepository carFixRepository;
     private final PaymentCarFixRepository paymentCarFixRepository;
     private final ContractRepository contractRepository;
+    private final RentalCarRepository rentalCarRepository;
+    private final AdminService adminService;
 
 
     @Override
@@ -59,8 +62,14 @@ public class CustomerServiceImpl implements CustomerService {
             bookACar.setPayment(bookACarDto.getPayment());
             bookACar.setDays(days);
             bookACar.setPrice(existingCar.getPrice() * days);
-            bookACarRepository.save(bookACar);
+            BookACar bookACar1 = bookACarRepository.save(bookACar);
 
+            RentalContractDto rentalContractDto = new RentalContractDto();
+            rentalContractDto.setBookACarId(bookACar1.getId());
+            rentalContractDto.setMaintenanceTerms("rent in" + diffInMilliSeconds + "days");
+            rentalContractDto.setTerminationTerms("end in" + days);
+            rentalContractDto.setUsageTerms("Vehicles may only be used for personal and legal purposes.Do not use the vehicle for racing activities, overloading, or any commercial purposes (if required)." );
+            adminService.postContractDto(rentalContractDto);
             return true;
         }
 
@@ -98,7 +107,8 @@ public class CustomerServiceImpl implements CustomerService {
                         .withMatcher("brand",ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                         .withMatcher("type",ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                         .withMatcher("transmission",ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                        .withMatcher("color",ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+                        .withMatcher("color",ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                        .withMatcher("numberSeat",ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
         Example<Car> carExample = Example.of(car,exampleMatcher);
         List<Car> carList = carRepository.findAll(carExample);
         CarDtoListDto carDtoListDto = new CarDtoListDto();
