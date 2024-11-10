@@ -59,6 +59,7 @@ public class RentalContract {
         rentalContractDto.setCarYear(bookACar.getCar().getYear());
         rentalContractDto.setUserName(bookACar.getUser().getName());
         rentalContractDto.setUserEmail(bookACar.getUser().getEmail());
+        rentalContractDto.setRentalContractStatus(rentalContractStatus);
         return rentalContractDto;
     }
 

@@ -69,6 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
             rentalContractDto.setBookACarId(bookACar1.getId());
             rentalContractDto.setMaintenanceTerms("rent in" + diffInMilliSeconds + "days");
             rentalContractDto.setTerminationTerms("end in" + days);
+            rentalContractDto.setRentalContractStatus(RentalContractStatus.PENDING);
             rentalContractDto.setUsageTerms("Vehicles may only be used for personal and legal purposes.Do not use the vehicle for racing activities, overloading, or any commercial purposes (if required)." );
             adminService.postContractDto(rentalContractDto);
             return true;
@@ -213,6 +214,13 @@ public class CustomerServiceImpl implements CustomerService {
             return true;
         }
         return false;
+    }
+
+
+
+    @Override
+    public List<RentalContractDto> getAllRentalContract(){
+        return rentalCarRepository.findAll().stream().map(RentalContract::getRentalContractDto).collect(Collectors.toList());
     }
 
 

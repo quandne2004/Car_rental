@@ -130,5 +130,17 @@ public class CustomerController {
         }
     }
 
+
+
+    @GetMapping("/rental")
+    public ResponseEntity<List<RentalContractDto>> getAllRentalContract(){
+        List<RentalContractDto> list = customerService.getAllRentalContract();
+        if (list == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(list);
+        }
+    }
+
    
 }
