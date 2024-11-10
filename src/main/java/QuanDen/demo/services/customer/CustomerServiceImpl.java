@@ -32,7 +32,6 @@ public class CustomerServiceImpl implements CustomerService {
     private final CommentRepository commentRepository;
     private final CarFixRepository carFixRepository;
     private final PaymentCarFixRepository paymentCarFixRepository;
-    private final ContractRepository contractRepository;
     private final RentalCarRepository rentalCarRepository;
     private final AdminService adminService;
 
@@ -190,6 +189,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public RentalContractDto getRentalContractById(Long id){
         Optional<RentalContract> optional = rentalCarRepository.findById(id);
+        if (optional.isEmpty()) {
+            System.out.println("Không tìm thấy hợp đồng với ID: " + id);
+        } else {
+            System.out.println("Tìm thấy hợp đồng: " + optional.get());
+        }
         return optional.map(RentalContract::getRentalContractDto).orElse(null);
     }
 

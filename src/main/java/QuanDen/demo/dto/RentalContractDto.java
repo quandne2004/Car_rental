@@ -1,6 +1,7 @@
 package QuanDen.demo.dto;
 
 
+import QuanDen.demo.enums.RentalContractStatus;
 import jakarta.persistence.Column;
 import lombok.Data;
 
@@ -26,4 +27,5 @@ public class RentalContractDto {
     private String maintenanceTerms;
     private String usageTerms;
     private String terminationTerms;
+    private RentalContractStatus rentalContractStatus;
 }

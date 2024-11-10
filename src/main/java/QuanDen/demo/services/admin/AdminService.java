@@ -34,13 +34,6 @@ public interface AdminService {
     CarFixDto getCarFixById(Long carFixId);
 
 
-    ContractDto postContractDto(Long carId,ContractDto contractDto);
-
-    List<ContractDto> getAllListContract();
-
-    ContractDto updateContract(Long id,ContractDto contractDto);
-
-    void deleteContract(Long id);
 
     RentalContractDto postContractDto(RentalContractDto rentalContractDto);
     List<RentalContractDto> getAllContractRental();

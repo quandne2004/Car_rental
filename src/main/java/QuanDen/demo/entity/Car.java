@@ -29,8 +29,6 @@ public class Car {
     private byte[] image;
     private Long numberSeat;
     private String carOwner;
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
-    private List<Contract> rentalContracts;
 
     public CarDto getCarDto(){
         CarDto carDto = new CarDto();

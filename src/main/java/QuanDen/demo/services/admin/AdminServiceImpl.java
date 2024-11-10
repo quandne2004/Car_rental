@@ -29,7 +29,6 @@ public class AdminServiceImpl implements AdminService{
     private final CarFixRepository carFixRepository;
     private final UserRepository userRepository;
     private final PaymentCarFixRepository paymentCarFixRepository;
-    private final ContractRepository contractRepository;
 
     private final RentalCarRepository rentalCarRepository;
 
@@ -210,70 +209,8 @@ public class AdminServiceImpl implements AdminService{
         return optionalCarFix.map(CarFix::getCarFixDto).orElse(null);
     }
 
-    @Override
-    public ContractDto postContractDto(Long carId, ContractDto contractDto) {
-        Optional<Car> optionalCar = carRepository.findById(carId);
-        if (optionalCar.isPresent()){
-            Contract contract = new Contract();
-            contract.setCar(optionalCar.get());
-            contract.setInsuranceDetails(contractDto.getInsuranceDetails());
-            contract.setLesseePhone(contractDto.getLesseePhone());
-            contract.setLesseeAddress(contractDto.getLesseeAddress());
-            contract.setPaymentMethod(contractDto.getPaymentMethod());
-            contract.setLessorName(contractDto.getLessorName());
-            contract.setRentalEndDate(contractDto.getRentalEndDate());
-            contract.setRentalPricePerDay(contractDto.getRentalPricePerDay());
-            contract.setDeposit(contractDto.getDeposit());
-            contract.setCancellationPolicy(contractDto.getCancellationPolicy());
-            contract.setAdditionalTerms(contractDto.getAdditionalTerms());
-            contract.setPickupLocation(contractDto.getPickupLocation());
-            contract.setRentalStartDate(contractDto.getRentalStartDate());
-            contract.setReturnLocation(contractDto.getReturnLocation());
-            contract.setLesseeName(contractDto.getLesseeName());
-            contract.setLesseeIdCard(contractDto.getLesseeIdCard());
-            Contract contract1 = contractRepository.save(contract);
-            ContractDto contractDto1 = new ContractDto();
-            contractDto1.setId(contract1.getId());
 
-            return contractDto1;
-        }
-        return null;
-    }
 
-    @Override
-    public List<ContractDto> getAllListContract() {
-        return contractRepository.findAll().stream().map(Contract::getContractDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public ContractDto updateContract(Long id, ContractDto contractDto) {
-        Optional<Car> optionalCar = carRepository.findById(contractDto.getCarId());
-        Optional<Contract> optionalContract = contractRepository.findById(id);
-        if (optionalCar.isPresent() && optionalContract.isPresent()){
-            Contract contract = optionalContract.get();
-            contract.setCar(optionalCar.get());
-            contract.setDeposit(contractDto.getDeposit());
-            contract.setPaymentMethod(contractDto.getPaymentMethod());
-            contract.setLessorName(contractDto.getLessorName());
-            contract.setLesseeAddress(contractDto.getLesseeAddress());
-            contract.setReturnLocation(contractDto.getReturnLocation());
-            contract.setAdditionalTerms(contract.getAdditionalTerms());
-            contract.setRentalStartDate(contractDto.getRentalStartDate());
-            contract.setPickupLocation(contractDto.getPickupLocation());
-            contract.setLesseeIdCard(contract.getLesseeIdCard());
-            contract.setRentalPricePerDay(contractDto.getRentalPricePerDay());
-            contract.setPaid(contractDto.isPaid());
-            contract.setLesseePhone(contractDto.getLesseePhone());
-            return contractRepository.save(contract).getContractDto();
-
-        }
-        return null;
-    }
-
-    @Override
-    public void deleteContract(Long id) {
-        contractRepository.deleteById(id);
-    }
 
 
 

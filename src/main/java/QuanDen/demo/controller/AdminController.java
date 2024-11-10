@@ -140,40 +140,6 @@ public class AdminController {
     }
 
 
-    @PostMapping("/contract/{carId}")
-    public ResponseEntity<ContractDto> postContract(@PathVariable Long carId,@RequestBody ContractDto contractDto){
-        ContractDto contractDto1 = adminService.postContractDto(carId,contractDto);
-        if (contractDto1 == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(contractDto1);
-        }
-    }
-
-    @GetMapping("/contract/list")
-    public ResponseEntity<List<ContractDto>> getContract(){
-        List<ContractDto> contractDtos = adminService.getAllListContract();
-        return ResponseEntity.ok(contractDtos);
-    }
-
-    @PutMapping("/update/contract/{contractId}")
-    public ResponseEntity<ContractDto> updateContract(@PathVariable Long contractId,@RequestBody ContractDto contractDto){
-        ContractDto contractDto1 = adminService.updateContract(contractId,contractDto);
-        if (contractDto1 == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.OK).body(contractDto1);
-        }
-    }
-
-
-
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteContract(@PathVariable Long id){
-        adminService.deleteContract(id);
-        return ResponseEntity.noContent().build();
-    }
-
 
 
     @PostMapping("/rental")
