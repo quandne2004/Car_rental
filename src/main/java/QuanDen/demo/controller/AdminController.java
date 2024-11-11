@@ -3,13 +3,16 @@ package QuanDen.demo.controller;
 
 import QuanDen.demo.dto.*;
 import QuanDen.demo.services.admin.AdminService;
+import QuanDen.demo.services.admin.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -18,6 +21,7 @@ import java.util.Optional;
 public class AdminController {
     private final AdminService adminService;
 
+    private final DashboardService dashboardService;
     @PostMapping("/car")
     public ResponseEntity<?> postCar(@ModelAttribute CarDto carDto) throws IOException {
         boolean success = adminService.postCar(carDto);
@@ -165,5 +169,17 @@ public class AdminController {
     public ResponseEntity<RentalContractDto> getRentalContractById(@PathVariable Long rentalContractId){
         RentalContractDto rentalContractDto = adminService.getRentalContractById(rentalContractId);
         return ResponseEntity.status(HttpStatus.OK).body(rentalContractDto);
+    }
+
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<Map<String, Object>> getDashboardData() {
+        Map<String, Object> data = new HashMap<>();
+        data.put("totalCars", dashboardService.getTotalCars());
+        data.put("totalRevenue", dashboardService.getTotalRevenue());
+        data.put("totalBookings", dashboardService.getTotalBookings());
+        data.put("totalRentalContracts", dashboardService.getTotalRentalContracts());
+
+        return ResponseEntity.ok(data);
     }
 }
