@@ -67,9 +67,9 @@ public class CustomerServiceImpl implements CustomerService {
 
             RentalContractDto rentalContractDto = new RentalContractDto();
             rentalContractDto.setBookACarId(bookACar1.getId());
-            rentalContractDto.setMaintenanceTerms("rent in" + diffInMilliSeconds + "days");
+            rentalContractDto.setMaintenanceTerms("rent in" + days + "days");
+            rentalContractDto.setRentalContractStatus(RentalContractStatus.ACCEPT);
             rentalContractDto.setTerminationTerms("end in" + days);
-            rentalContractDto.setRentalContractStatus(RentalContractStatus.PENDING);
             rentalContractDto.setUsageTerms("Vehicles may only be used for personal and legal purposes.Do not use the vehicle for racing activities, overloading, or any commercial purposes (if required)." );
             adminService.postContractDto(rentalContractDto);
             return true;
@@ -117,6 +117,9 @@ public class CustomerServiceImpl implements CustomerService {
         carDtoListDto.setCarDtoList(carList.stream().map(Car::getCarDto).collect(Collectors.toList()));
         return carDtoListDto;
     }
+
+
+
 
 
 

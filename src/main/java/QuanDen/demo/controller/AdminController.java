@@ -3,7 +3,8 @@ package QuanDen.demo.controller;
 
 import QuanDen.demo.dto.*;
 import QuanDen.demo.services.admin.AdminService;
-import QuanDen.demo.services.admin.DashboardService;
+import QuanDen.demo.services.admin.chart.RevenueService;
+import QuanDen.demo.services.admin.dashboard.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -22,6 +22,8 @@ public class AdminController {
     private final AdminService adminService;
 
     private final DashboardService dashboardService;
+
+    private final RevenueService revenueService;
     @PostMapping("/car")
     public ResponseEntity<?> postCar(@ModelAttribute CarDto carDto) throws IOException {
         boolean success = adminService.postCar(carDto);
@@ -182,4 +184,20 @@ public class AdminController {
 
         return ResponseEntity.ok(data);
     }
+
+
+
+
+    @GetMapping("/monthly-revenue")
+    public Map<String, Object> getMonthlyRevenue() {
+        return revenueService.getMonthlyRevenue();
+    }
+
+
+
+    @PostMapping("/search")
+    public ResponseEntity<?> searchCarByName(@RequestBody SearchCarDto searchCarDto){
+        return ResponseEntity.ok(adminService.searchCarByName(searchCarDto));
+    }
+
 }

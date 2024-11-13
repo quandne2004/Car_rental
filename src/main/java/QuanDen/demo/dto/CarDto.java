@@ -22,4 +22,5 @@ public class CarDto {
     private CarStatus carStatus;
     private Long numberSeat;
     private String carOwner;
+
 }

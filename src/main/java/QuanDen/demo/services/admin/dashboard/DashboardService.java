@@ -1,4 +1,4 @@
-package QuanDen.demo.services.admin;
+package QuanDen.demo.services.admin.dashboard;
 
 import QuanDen.demo.dto.DashboardStatsDTO;
 

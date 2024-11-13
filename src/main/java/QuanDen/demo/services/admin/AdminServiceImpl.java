@@ -224,6 +224,7 @@ public class AdminServiceImpl implements AdminService{
             rentalContract.setBookACar(optionalBookACar.get());
             rentalContract.setMaintenanceTerms(rentalContractDto.getMaintenanceTerms());
             rentalContract.setTerminationTerms(rentalContractDto.getTerminationTerms());
+            rentalContract.setRentalContractStatus(rentalContractDto.getRentalContractStatus());
             rentalContract.setUsageTerms(rentalContractDto.getUsageTerms());
             RentalContract rentalContract1 = rentalCarRepository.save(rentalContract);
             RentalContractDto rentalContractDto1 = new RentalContractDto();
@@ -248,5 +249,20 @@ public class AdminServiceImpl implements AdminService{
         return rentalContract.getRentalContractDto();
     }
 
+
+
+    @Override
+public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
+        Car car = new Car();
+        car.setName(searchCarDto.getName());
+    ExampleMatcher exampleMatcher =
+            ExampleMatcher.matchingAll()
+                    .withMatcher("name",ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+    Example<Car> carExample = Example.of(car,exampleMatcher);
+    List<Car> carList = carRepository.findAll(carExample);
+    CarDtoListDto carDtoListDto = new CarDtoListDto();
+    carDtoListDto.setCarDtoList(carList.stream().map(Car::getCarDto).collect(Collectors.toList()));
+    return carDtoListDto;
+}
 
 }

@@ -1,16 +1,16 @@
-package QuanDen.demo.services.admin;
+package QuanDen.demo.services.admin.dashboard;
 
 
-import QuanDen.demo.dto.DashboardStatsDTO;
 import QuanDen.demo.repository.BookACarRepository;
 import QuanDen.demo.repository.CarRepository;
 import QuanDen.demo.repository.RentalCarRepository;
+import QuanDen.demo.services.admin.dashboard.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class DashboardServiceImpl implements DashboardService{
+public class DashboardServiceImpl implements DashboardService {
 
         private final CarRepository carRepository;
 
