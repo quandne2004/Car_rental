@@ -205,10 +205,16 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<RentalContract> optional = rentalCarRepository.findById(rentalContractId);
         if (optional.isPresent()){
             RentalContract rentalContract = optional.get();
+            BookACar booking = rentalContract.getBookACar(); // Assuming there's a relation
+
             if (Objects.equals(status,"Accept")){
                 rentalContract.setRentalContractStatus(RentalContractStatus.ACCEPT);
             }else {
                 rentalContract.setRentalContractStatus(RentalContractStatus.REJECT);
+                if (booking != null) {
+                    booking.setBookCarStatus(BookCarStatus.REJECTED); // Update to CANCELED status
+                    bookACarRepository.save(booking); // Save the updated booking
+                }
                 rentalCarRepository.save(rentalContract);
             }
             return true;
