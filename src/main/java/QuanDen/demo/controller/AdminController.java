@@ -200,4 +200,10 @@ public class AdminController {
         return ResponseEntity.ok(adminService.searchCarByName(searchCarDto));
     }
 
+    @GetMapping("/car-type-data")
+    public ResponseEntity<Map<String, Object>> getCarTypeData() {
+        Map<String, Object> data = adminService.getCarTypeData();
+        return ResponseEntity.ok(data);
+    }
+
 }

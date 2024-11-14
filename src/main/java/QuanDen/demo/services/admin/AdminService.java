@@ -4,6 +4,7 @@ import QuanDen.demo.dto.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface AdminService {
     boolean postCar(CarDto carDto) throws IOException;
@@ -42,5 +43,7 @@ public interface AdminService {
     RentalContractDto getRentalContractById(Long id);
 
     CarDtoListDto searchCarByName(SearchCarDto searchCarDto);
+    Map<String, Object> getCarTypeData();
+
 
 }

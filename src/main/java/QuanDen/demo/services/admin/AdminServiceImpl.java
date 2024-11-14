@@ -14,9 +14,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -264,5 +262,26 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
     carDtoListDto.setCarDtoList(carList.stream().map(Car::getCarDto).collect(Collectors.toList()));
     return carDtoListDto;
 }
+
+
+    public Map<String, Object> getCarTypeData() {
+        List<Object[]> results = carRepository.getCarTypeCount();
+
+        Map<String, Object> response = new HashMap<>();
+        List<String> labels = new ArrayList<>();
+        List<Long> values = new ArrayList<>();
+
+        for (Object[] result : results) {
+            String type = (String) result[0];  // Loại xe
+            Long count = (Long) result[1];     // Số lượng xe
+            labels.add(type);
+            values.add(count);
+        }
+
+        response.put("labels", labels);
+        response.put("values", values);
+
+        return response;
+    }
 
 }

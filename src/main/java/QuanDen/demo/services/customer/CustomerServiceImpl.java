@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -225,6 +222,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<RentalContractDto> getAllRentalContract(){
         return rentalCarRepository.findAll().stream().map(RentalContract::getRentalContractDto).collect(Collectors.toList());
     }
+
 
 
 }
