@@ -264,17 +264,18 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
 }
 
 
-    public Map<String, Object> getCarNameData() {
-        List<Object[]> results = carRepository.getCarNameCount();
+    public Map<String, Object> getCarBrandData() {
+        // Thay đổi truy vấn để lấy theo thương hiệu thay vì tên xe
+        List<Object[]> results = carRepository.getCarBrandCount();
 
         Map<String, Object> response = new HashMap<>();
-        List<String> labels = new ArrayList<>();  // Nhãn là tên xe
-        List<Long> values = new ArrayList<>();    // Số lượng xe theo tên
+        List<String> labels = new ArrayList<>();  // Nhãn là tên thương hiệu
+        List<Long> values = new ArrayList<>();    // Số lượng xe theo thương hiệu
 
         for (Object[] result : results) {
-            String name = (String) result[0];  // Tên xe
-            Long count = (Long) result[1];     // Số lượng xe
-            labels.add(name);
+            String brand = (String) result[0];  // Thương hiệu
+            Long count = (Long) result[1];      // Số lượng xe của thương hiệu đó
+            labels.add(brand);
             values.add(count);
         }
 
@@ -283,6 +284,7 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
 
         return response;
     }
+
 
 
 }
