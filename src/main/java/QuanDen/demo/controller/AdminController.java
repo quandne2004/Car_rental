@@ -2,6 +2,7 @@ package QuanDen.demo.controller;
 
 
 import QuanDen.demo.dto.*;
+import QuanDen.demo.entity.Car;
 import QuanDen.demo.services.admin.AdminService;
 import QuanDen.demo.services.admin.chart.RevenueService;
 import QuanDen.demo.services.admin.dashboard.DashboardService;
@@ -195,15 +196,25 @@ public class AdminController {
 
 
 
-    @PostMapping("/search")
-    public ResponseEntity<?> searchCarByName(@RequestBody SearchCarDto searchCarDto){
-        return ResponseEntity.ok(adminService.searchCarByName(searchCarDto));
-    }
 
     @GetMapping("/car-type-data")
     public ResponseEntity<Map<String, Object>> getCarTypeData() {
         Map<String, Object> data = adminService.getCarBrandData();
         return ResponseEntity.ok(data);
+    }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CarDto>> searchCarByName(@RequestParam("name") String name) {
+        try {
+            // Gọi dịch vụ tìm kiếm xe theo tên
+            List<CarDto> carDtos = adminService.searchCarByName(name);
+            // Trả về kết quả tìm kiếm dưới dạng response
+            return ResponseEntity.ok(carDtos);
+        } catch (Exception e) {
+            // Nếu có lỗi, trả về mã lỗi 500 với thông báo lỗi
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 }

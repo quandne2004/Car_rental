@@ -15,11 +15,12 @@ public interface AdminService {
 
     CarDto getCarById(Long id);
 
-    boolean updateCar(Long carId,CarDto carDto) throws IOException;
+    boolean updateCar(Long carId, CarDto carDto) throws IOException;
 
     List<BookACarDto> getBookings();
 
-    boolean changeBookingStatus(Long bookingId,String status);
+    boolean changeBookingStatus(Long bookingId, String status);
+
     CarDtoListDto searchCar(SearchCarDto searchCarDto);
 
     List<CommentDto> getAllComment();
@@ -30,18 +31,21 @@ public interface AdminService {
 
     boolean changeCarFixStatus(Long carFixId, String status);
 
-    PaymentCarFixDto postPaymentCarFixDto(Long carFixId,PaymentCarFixDto paymentCarFixDto);
+    PaymentCarFixDto postPaymentCarFixDto(Long carFixId, PaymentCarFixDto paymentCarFixDto);
 
     CarFixDto getCarFixById(Long carFixId);
-
 
 
     RentalContractDto postContractDto(RentalContractDto rentalContractDto);
 
 
     List<RentalContractDto> getAllContractRental();
+
     RentalContractDto getRentalContractById(Long id);
 
     CarDtoListDto searchCarByName(SearchCarDto searchCarDto);
+
     Map<String, Object> getCarBrandData();
+
+    List<CarDto> searchCarByName(String name);
 }

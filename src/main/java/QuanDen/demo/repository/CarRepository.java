@@ -4,10 +4,12 @@ import QuanDen.demo.dto.CarDto;
 import QuanDen.demo.entity.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -20,5 +22,6 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     @Query("SELECT c.brand, COUNT(c) FROM Car c GROUP BY c.brand")
     List<Object[]> getCarBrandCount();
 
+    Optional<Car> findCarByNameIgnoreCase(String name);
 
 }

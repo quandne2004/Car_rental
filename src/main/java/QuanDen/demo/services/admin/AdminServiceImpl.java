@@ -265,7 +265,6 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
 
 
     public Map<String, Object> getCarBrandData() {
-        // Thay đổi truy vấn để lấy theo thương hiệu thay vì tên xe
         List<Object[]> results = carRepository.getCarBrandCount();
 
         Map<String, Object> response = new HashMap<>();
@@ -283,6 +282,16 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
         response.put("values", values);
 
         return response;
+    }
+    @Override
+    public List<CarDto> searchCarByName(String name) {
+
+        // Chuyển đổi từ Car sang CarDto
+        List<CarDto> carDtos = carRepository.findCarByNameIgnoreCase(name).stream()
+                .map(Car::getCarDto)
+                .collect(Collectors.toList());
+
+        return carDtos;
     }
 
 
