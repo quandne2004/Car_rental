@@ -286,7 +286,6 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
     @Override
     public List<CarDto> searchCarByName(String name) {
 
-        // Chuyển đổi từ Car sang CarDto
         List<CarDto> carDtos = carRepository.findCarByNameIgnoreCase(name).stream()
                 .map(Car::getCarDto)
                 .collect(Collectors.toList());
@@ -294,6 +293,13 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
         return carDtos;
     }
 
+
+
+    @Override
+    public List<BookACarDto> searchById(Long id){
+        List<BookACarDto> bookACarDtos = bookACarRepository.findById(id).stream().map(BookACar::getBookACarDto).collect(Collectors.toList());
+        return bookACarDtos;
+    }
 
 
 }

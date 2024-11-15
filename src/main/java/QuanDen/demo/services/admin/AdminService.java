@@ -48,4 +48,6 @@ public interface AdminService {
     Map<String, Object> getCarBrandData();
 
     List<CarDto> searchCarByName(String name);
+
+    List<BookACarDto> searchById(Long id);
 }

@@ -213,4 +213,15 @@ public class AdminController {
         }
     }
 
+
+    @GetMapping("/searchById")
+    public ResponseEntity<List<BookACarDto>> searchBookACarById(@RequestParam("id") Long id){
+        try {
+            List<BookACarDto> bookACarDtos = adminService.searchById(id);
+            return ResponseEntity.ok(bookACarDtos);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }
