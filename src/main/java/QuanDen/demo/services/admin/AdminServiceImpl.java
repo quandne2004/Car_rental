@@ -264,17 +264,17 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
 }
 
 
-    public Map<String, Object> getCarTypeData() {
-        List<Object[]> results = carRepository.getCarTypeCount();
+    public Map<String, Object> getCarNameData() {
+        List<Object[]> results = carRepository.getCarNameCount();
 
         Map<String, Object> response = new HashMap<>();
-        List<String> labels = new ArrayList<>();
-        List<Long> values = new ArrayList<>();
+        List<String> labels = new ArrayList<>();  // Nhãn là tên xe
+        List<Long> values = new ArrayList<>();    // Số lượng xe theo tên
 
         for (Object[] result : results) {
-            String type = (String) result[0];  // Loại xe
+            String name = (String) result[0];  // Tên xe
             Long count = (Long) result[1];     // Số lượng xe
-            labels.add(type);
+            labels.add(name);
             values.add(count);
         }
 
@@ -283,5 +283,6 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
 
         return response;
     }
+
 
 }

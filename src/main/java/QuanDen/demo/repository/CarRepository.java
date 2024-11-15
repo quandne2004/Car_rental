@@ -16,6 +16,8 @@ public interface CarRepository extends JpaRepository<Car,Long> {
 
     List<CarDto> findByNameContainingIgnoreCase(String name);
 
-    @Query("SELECT c.type, COUNT(c) FROM Car c GROUP BY c.type")
-    List<Object[]> getCarTypeCount();
+    // Truy vấn lấy số lượng xe theo tên xe
+    @Query("SELECT c.name, COUNT(c) FROM Car c GROUP BY c.name")
+    List<Object[]> getCarNameCount();
+
 }

@@ -202,7 +202,7 @@ public class AdminController {
 
     @GetMapping("/car-type-data")
     public ResponseEntity<Map<String, Object>> getCarTypeData() {
-        Map<String, Object> data = adminService.getCarTypeData();
+        Map<String, Object> data = adminService.getCarNameData();
         return ResponseEntity.ok(data);
     }
 

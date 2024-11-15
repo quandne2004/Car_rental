@@ -43,7 +43,6 @@ public interface AdminService {
     RentalContractDto getRentalContractById(Long id);
 
     CarDtoListDto searchCarByName(SearchCarDto searchCarDto);
-    Map<String, Object> getCarTypeData();
-
+    Map<String, Object> getCarNameData();
 
 }
