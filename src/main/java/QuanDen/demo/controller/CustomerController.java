@@ -143,9 +143,14 @@ public class CustomerController {
         }
     }
 
-
-
-
-
-   
+    @PutMapping("/rental/{rentalContractId}")
+    public ResponseEntity<Void> updateRentalContract(@PathVariable Long rentalContractId, @ModelAttribute RentalContractDto rentalContractDto) throws IOException{
+        try{
+            boolean success = customerService.getRentalContract(rentalContractId,rentalContractDto);
+            if (success) return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }

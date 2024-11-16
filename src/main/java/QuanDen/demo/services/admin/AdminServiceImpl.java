@@ -6,6 +6,7 @@ import QuanDen.demo.entity.*;
 import QuanDen.demo.enums.BookCarStatus;
 import QuanDen.demo.enums.CarFixStatus;
 import QuanDen.demo.enums.CarStatus;
+import QuanDen.demo.enums.CommentStatus;
 import QuanDen.demo.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -299,6 +300,20 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
     public List<BookACarDto> searchById(Long id){
         List<BookACarDto> bookACarDtos = bookACarRepository.findById(id).stream().map(BookACar::getBookACarDto).collect(Collectors.toList());
         return bookACarDtos;
+    }
+
+    public boolean changeCommentStatus(Long commentId,String status){
+        Optional<Comment> optional = commentRepository.findById(commentId);
+        if (optional.isPresent()){
+            Comment comment = optional.get();
+            if (Objects.equals(status,"Approved")){
+                comment.setCommentStatus(CommentStatus.APPROVED);
+            }else {
+                comment.setCommentStatus(CommentStatus.REJECTED);
+            }
+            commentRepository.save(comment);
+        }
+        return false;
     }
 
 

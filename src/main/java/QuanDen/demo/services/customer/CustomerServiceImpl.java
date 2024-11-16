@@ -230,5 +230,20 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
+    public boolean getRentalContract(Long rentalContractId,RentalContractDto rentalContractDto){
+        Optional<RentalContract> optional = rentalCarRepository.findById(rentalContractId);
+        Optional<BookACar> optionalBookACar = bookACarRepository.findById(rentalContractDto.getBookACarId());
+        if (optional.isPresent() && optionalBookACar.isPresent()){
+            RentalContract rentalContract = optional.get();
+            rentalContract.setTerminationTerms(rentalContractDto.getTerminationTerms());
+            rentalContract.setUsageTerms(rentalContractDto.getUsageTerms());
+            rentalContract.setBookACar(optionalBookACar.get());
+            rentalCarRepository.save(rentalContract);
+            return true;
+        }
+        return false;
+    }
+
+
 
 }

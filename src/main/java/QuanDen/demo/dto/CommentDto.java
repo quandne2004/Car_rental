@@ -1,5 +1,6 @@
 package QuanDen.demo.dto;
 
+import QuanDen.demo.enums.CommentStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,4 +15,7 @@ public class CommentDto {
     private Long userId;
     private Long carId;
     private String username;
+
+    private CommentStatus commentStatus;
+
 }

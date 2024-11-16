@@ -224,4 +224,15 @@ public class AdminController {
         }
     }
 
+
+    @GetMapping("/comment/{commentId}/{status}")
+    public ResponseEntity<?> changeCommentStatus(@PathVariable Long commentId,@PathVariable String status){
+        boolean success = adminService.changeCommentStatus(commentId,status);
+        if (success){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 }

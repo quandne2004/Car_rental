@@ -50,4 +50,6 @@ public interface AdminService {
     List<CarDto> searchCarByName(String name);
 
     List<BookACarDto> searchById(Long id);
+
+    boolean changeCommentStatus(Long commentId,String status);
 }

@@ -2,6 +2,7 @@ package QuanDen.demo.entity;
 
 
 import QuanDen.demo.dto.CommentDto;
+import QuanDen.demo.enums.CommentStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,6 +30,8 @@ public class Comment {
     private int rating;
 
 
+    private CommentStatus commentStatus;
+
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id",nullable = false)
@@ -54,6 +57,7 @@ public class Comment {
         commentDto.setCarId(car.getId());
         commentDto.setCreatedDate(createdDate);
         commentDto.setUsername(user.getName());
+        commentDto.setCommentStatus(commentStatus);
         return commentDto;
     }
 
