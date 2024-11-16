@@ -22,6 +22,7 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     @Query("SELECT c.brand, COUNT(c) FROM Car c GROUP BY c.brand")
     List<Object[]> getCarBrandCount();
 
-    Optional<Car> findCarByNameIgnoreCase(String name);
+    @Query("SELECT c FROM Car c WHERE upper(c.name) LIKE upper(concat(:name, '%'))")
+    List<Car> findCarByNameStartsWithIgnoreCase(@Param("name") String name);
 
 }

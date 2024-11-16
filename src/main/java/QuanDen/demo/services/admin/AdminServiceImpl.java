@@ -286,7 +286,7 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
     @Override
     public List<CarDto> searchCarByName(String name) {
 
-        List<CarDto> carDtos = carRepository.findCarByNameIgnoreCase(name).stream()
+        List<CarDto> carDtos = carRepository.findCarByNameStartsWithIgnoreCase(name).stream()
                 .map(Car::getCarDto)
                 .collect(Collectors.toList());
 
