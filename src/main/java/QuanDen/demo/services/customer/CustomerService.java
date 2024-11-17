@@ -34,6 +34,7 @@ public interface CustomerService {
     List<RentalContractDto> getAllRentalContract();
     boolean changeRentalContractStatus(Long rentalContractId,String status);
 
+    List<CarDto> searchCarByName(String name);
 
     boolean getRentalContract(Long rentalContractId,RentalContractDto rentalContractDto);
 }

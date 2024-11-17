@@ -153,4 +153,15 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CarDto>> searchCarByName(@RequestParam("name") String name) {
+        try {
+            List<CarDto> carDtos = customerService.searchCarByName(name);
+            return ResponseEntity.ok(carDtos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

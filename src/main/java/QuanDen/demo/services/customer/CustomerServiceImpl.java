@@ -2,10 +2,7 @@ package QuanDen.demo.services.customer;
 
 import QuanDen.demo.dto.*;
 import QuanDen.demo.entity.*;
-import QuanDen.demo.enums.BookCarStatus;
-import QuanDen.demo.enums.CarFixStatus;
-import QuanDen.demo.enums.CarStatus;
-import QuanDen.demo.enums.RentalContractStatus;
+import QuanDen.demo.enums.*;
 import QuanDen.demo.repository.*;
 import QuanDen.demo.services.admin.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -137,6 +134,7 @@ public class CustomerServiceImpl implements CustomerService {
                 comment.setUser(optionalUser.get());
                 comment.setCar(optionalCar.get());
                 comment.setCreatedDate(new Date());
+                comment.setCommentStatus(CommentStatus.PENDING);
                 Comment comment1 = commentRepository.save(comment);
                 CommentDto commentDto1 = new CommentDto();
                 commentDto1.setId(comment1.getId());
@@ -230,18 +228,35 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
+
+    @Override
     public boolean getRentalContract(Long rentalContractId,RentalContractDto rentalContractDto){
         Optional<RentalContract> optional = rentalCarRepository.findById(rentalContractId);
         Optional<BookACar> optionalBookACar = bookACarRepository.findById(rentalContractDto.getBookACarId());
         if (optional.isPresent() && optionalBookACar.isPresent()){
             RentalContract rentalContract = optional.get();
+            BookACar bookACar = optionalBookACar.get();
+            bookACar.setPayment(rentalContractDto.getPaymentMethod());
+            bookACar.setFromDate(rentalContractDto.getBookACarfromDate());
+            bookACar.setToDate(rentalContractDto.getBookACartoDate());
+            bookACarRepository.save(bookACar);
             rentalContract.setTerminationTerms(rentalContractDto.getTerminationTerms());
             rentalContract.setUsageTerms(rentalContractDto.getUsageTerms());
-            rentalContract.setBookACar(optionalBookACar.get());
+            rentalContract.setBookACar(bookACar);
             rentalCarRepository.save(rentalContract);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<CarDto> searchCarByName(String name) {
+
+        List<CarDto> carDtos = carRepository.findCarByNameStartsWithIgnoreCase(name).stream()
+                .map(Car::getCarDto)
+                .collect(Collectors.toList());
+
+        return carDtos;
     }
 
 

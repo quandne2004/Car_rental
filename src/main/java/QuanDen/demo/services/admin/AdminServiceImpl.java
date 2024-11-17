@@ -302,18 +302,24 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
         return bookACarDtos;
     }
 
-    public boolean changeCommentStatus(Long commentId,String status){
+    public boolean changeCommentStatus(Long commentId, String status) {
+        String normalizedStatus = status != null ? status.trim().toUpperCase() : "";
         Optional<Comment> optional = commentRepository.findById(commentId);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             Comment comment = optional.get();
-            if (Objects.equals(status,"Approved")){
+
+            if ("APPROVED".equals(normalizedStatus)) {
                 comment.setCommentStatus(CommentStatus.APPROVED);
-            }else {
+            } else if ("REJECTED".equals(normalizedStatus)) {
                 comment.setCommentStatus(CommentStatus.REJECTED);
+            } else {
+                throw new IllegalArgumentException("Invalid status: " + status);
             }
             commentRepository.save(comment);
+            return true;
+        } else {
+            throw new NoSuchElementException("Comment with ID " + commentId + " not found.");
         }
-        return false;
     }
 
 
