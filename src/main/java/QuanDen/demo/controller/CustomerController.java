@@ -114,9 +114,9 @@ public class CustomerController {
 
 
 
-    @GetMapping("/rentalContract/{id}")
-    public ResponseEntity<?> getRentalContractById(@PathVariable Long id){
-        RentalContractDto rentalContractDto = customerService.getRentalContractById(id);
+    @GetMapping("/rentalContract/{rentalContractId}")
+    public ResponseEntity<?> getRentalContractById(@PathVariable Long rentalContractId){
+        RentalContractDto rentalContractDto = customerService.getRentalContractById(rentalContractId);
         return ResponseEntity.ok(rentalContractDto);
     }
 

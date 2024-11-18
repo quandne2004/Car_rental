@@ -30,7 +30,7 @@ public interface CustomerService {
     List<PaymentCarFixDto> getAllPaymentByUserId(Long userId);
 
     CarFixDto getCarFixById(Long carFixId);
-    RentalContractDto getRentalContractById(Long id);
+    RentalContractDto getRentalContractById(Long rentalContractId);
     List<RentalContractDto> getAllRentalContract();
     boolean changeRentalContractStatus(Long rentalContractId,String status);
 

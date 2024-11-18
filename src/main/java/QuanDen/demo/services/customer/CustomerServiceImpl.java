@@ -186,10 +186,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public RentalContractDto getRentalContractById(Long id){
-        Optional<RentalContract> optional = rentalCarRepository.findById(id);
+    public RentalContractDto getRentalContractById(Long rentalContractId){
+        Optional<RentalContract> optional = rentalCarRepository.findById(rentalContractId);
         if (optional.isEmpty()) {
-            System.out.println("Không tìm thấy hợp đồng với ID: " + id);
+            System.out.println("Không tìm thấy hợp đồng với ID: " + rentalContractId);
         } else {
             System.out.println("Tìm thấy hợp đồng: " + optional.get());
         }
