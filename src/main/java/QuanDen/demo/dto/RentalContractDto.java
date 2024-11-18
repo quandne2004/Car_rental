@@ -4,6 +4,7 @@ package QuanDen.demo.dto;
 import QuanDen.demo.enums.RentalContractStatus;
 import jakarta.persistence.Column;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -14,7 +15,9 @@ public class RentalContractDto {
 
     private Long bookACarId;
     private String paymentMethod;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")  // Đảm bảo ngày tháng đúng định dạng
     private Date BookACarfromDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")  // Đảm bảo rằng ngày tháng đúng định dạng
     private Date BookACartoDate;
     private Long BookACarDays;
     private Long BookACarPrice;

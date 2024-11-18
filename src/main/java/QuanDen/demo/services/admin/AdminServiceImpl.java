@@ -323,4 +323,45 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
     }
 
 
+    public boolean updateRentalContract(Long rentalContractId, RentalContractDto rentalContractDto) {
+        // Tìm hợp đồng theo ID
+        Optional<RentalContract> rentalContractOptional = rentalCarRepository.findById(rentalContractId);
+
+        if (rentalContractOptional.isPresent()) {
+            RentalContract rentalContract = rentalContractOptional.get();
+
+            // Cập nhật thông tin hợp đồng từ RentalContractDto
+            if (rentalContractDto.getMaintenanceTerms() != null) {
+                rentalContract.setMaintenanceTerms(rentalContractDto.getMaintenanceTerms());
+            }
+            if (rentalContractDto.getUsageTerms() != null) {
+                rentalContract.setUsageTerms(rentalContractDto.getUsageTerms());
+            }
+            if (rentalContractDto.getTerminationTerms() != null) {
+                rentalContract.setTerminationTerms(rentalContractDto.getTerminationTerms());
+            }
+            if (rentalContractDto.getRentalContractStatus() != null) {
+                rentalContract.setRentalContractStatus(rentalContractDto.getRentalContractStatus());
+            }
+
+            // Cập nhật BookACar thông qua BookACarId nếu cần thiết
+            if (rentalContractDto.getBookACarId() != null) {
+                Optional<BookACar> bookACarOptional = bookACarRepository.findById(rentalContractDto.getBookACarId());
+                if (bookACarOptional.isPresent()) {
+                    BookACar bookACar = bookACarOptional.get();
+                    rentalContract.setBookACar(bookACar);  // Gán lại BookACar cho hợp đồng
+                }
+            }
+
+            // Lưu hợp đồng sau khi cập nhật
+            rentalCarRepository.save(rentalContract);
+
+            return true;  // Cập nhật thành công
+        }
+
+        return false;  // Nếu không tìm thấy hợp đồng, trả về false
+    }
+
+
+
 }

@@ -30,11 +30,12 @@ public interface CustomerService {
     List<PaymentCarFixDto> getAllPaymentByUserId(Long userId);
 
     CarFixDto getCarFixById(Long carFixId);
-    RentalContractDto getRentalContractById(Long rentalContractId);
+    RentalContractDto getRentalContractById(Long id);
     List<RentalContractDto> getAllRentalContract();
     boolean changeRentalContractStatus(Long rentalContractId,String status);
 
     List<CarDto> searchCarByName(String name);
 
-    boolean getRentalContract(Long rentalContractId,RentalContractDto rentalContractDto);
+    RentalContractDto updateRentalContract(Long rentalContractId, RentalContractDto rentalContractDto);
+    boolean updateBookCar( Long bookACarId, BookACarDto bookACarDto);
 }

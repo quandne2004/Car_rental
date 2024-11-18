@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -114,9 +115,9 @@ public class CustomerController {
 
 
 
-    @GetMapping("/rentalContract/{rentalContractId}")
-    public ResponseEntity<?> getRentalContractById(@PathVariable Long rentalContractId){
-        RentalContractDto rentalContractDto = customerService.getRentalContractById(rentalContractId);
+    @GetMapping("/rentalContract/{id}")
+    public ResponseEntity<?> getRentalContractById(@PathVariable Long id){
+        RentalContractDto rentalContractDto = customerService.getRentalContractById(id);
         return ResponseEntity.ok(rentalContractDto);
     }
 
@@ -143,15 +144,10 @@ public class CustomerController {
         }
     }
 
-    @PutMapping("/rental/{rentalContractId}")
-    public ResponseEntity<Void> updateRentalContract(@PathVariable Long rentalContractId, @ModelAttribute RentalContractDto rentalContractDto) throws IOException{
-        try{
-            boolean success = customerService.getRentalContract(rentalContractId,rentalContractDto);
-            if (success) return ResponseEntity.status(HttpStatus.OK).build();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    @PutMapping("/rental/{id}")
+    public ResponseEntity<RentalContractDto> updateRentalContract(@PathVariable Long id, @ModelAttribute RentalContractDto rentalContractDto) throws IOException{
+        RentalContractDto updatedContractDto = customerService.updateRentalContract(id, rentalContractDto);
+        return ResponseEntity.ok(updatedContractDto);
     }
 
 
@@ -164,4 +160,19 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @PutMapping("/updateBookACar/{bookACarId}")
+    public ResponseEntity<Map<String, String>> updateBookACar(@PathVariable Long bookACarId, @RequestBody BookACarDto bookACarDto) {
+        boolean updated = customerService.updateBookCar(bookACarId, bookACarDto);
+        if (updated) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "BookACar details updated successfully.");
+            return ResponseEntity.ok(response);  // Trả về JSON
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Failed to update BookACar.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);  // Trả về lỗi
+        }
+    }
+
 }

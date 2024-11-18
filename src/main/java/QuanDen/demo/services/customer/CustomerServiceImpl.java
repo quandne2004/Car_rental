@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 import java.io.IOException;
@@ -61,9 +62,9 @@ public class CustomerServiceImpl implements CustomerService {
 
             RentalContractDto rentalContractDto = new RentalContractDto();
             rentalContractDto.setBookACarId(bookACar1.getId());
-            rentalContractDto.setMaintenanceTerms("rent in" + days + "days");
+            rentalContractDto.setMaintenanceTerms(" rent in " + days + " days ");
             rentalContractDto.setRentalContractStatus(RentalContractStatus.ACCEPT);
-            rentalContractDto.setTerminationTerms("end in" + days);
+            rentalContractDto.setTerminationTerms(" end in " + days);
             rentalContractDto.setUsageTerms("Vehicles may only be used for personal and legal purposes.Do not use the vehicle for racing activities, overloading, or any commercial purposes (if required)." );
             adminService.postContractDto(rentalContractDto);
             return true;
@@ -186,10 +187,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public RentalContractDto getRentalContractById(Long rentalContractId){
-        Optional<RentalContract> optional = rentalCarRepository.findById(rentalContractId);
+    public RentalContractDto getRentalContractById(Long id){
+        Optional<RentalContract> optional = rentalCarRepository.findById(id);
         if (optional.isEmpty()) {
-            System.out.println("Không tìm thấy hợp đồng với ID: " + rentalContractId);
+            System.out.println("Không tìm thấy hợp đồng với ID: " + id);
         } else {
             System.out.println("Tìm thấy hợp đồng: " + optional.get());
         }
@@ -229,25 +230,60 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 
+
+
     @Override
-    public boolean getRentalContract(Long rentalContractId,RentalContractDto rentalContractDto){
-        Optional<RentalContract> optional = rentalCarRepository.findById(rentalContractId);
-        Optional<BookACar> optionalBookACar = bookACarRepository.findById(rentalContractDto.getBookACarId());
-        if (optional.isPresent() && optionalBookACar.isPresent()){
-            RentalContract rentalContract = optional.get();
-            BookACar bookACar = optionalBookACar.get();
+    public RentalContractDto updateRentalContract(Long rentalContractId, RentalContractDto rentalContractDto) {
+        // Lấy hợp đồng từ database
+        RentalContract rentalContract = rentalCarRepository.findById(rentalContractId)
+                .orElseThrow(() -> new RuntimeException("Rental contract not found"));
+
+        // Lấy thông tin từ BookACar
+        BookACar bookACar = rentalContract.getBookACar();
+
+        // Cập nhật các trường trong BookACar
+        if (rentalContractDto.getPaymentMethod() != null) {
             bookACar.setPayment(rentalContractDto.getPaymentMethod());
-            bookACar.setFromDate(rentalContractDto.getBookACarfromDate());
-            bookACar.setToDate(rentalContractDto.getBookACartoDate());
-            bookACarRepository.save(bookACar);
-            rentalContract.setTerminationTerms(rentalContractDto.getTerminationTerms());
-            rentalContract.setUsageTerms(rentalContractDto.getUsageTerms());
-            rentalContract.setBookACar(bookACar);
-            rentalCarRepository.save(rentalContract);
-            return true;
         }
-        return false;
+        if (rentalContractDto.getBookACarfromDate() != null) {
+            bookACar.setFromDate(rentalContractDto.getBookACarfromDate());
+        }
+        if (rentalContractDto.getBookACartoDate() != null) {
+            bookACar.setToDate(rentalContractDto.getBookACartoDate());
+        }
+
+        // Lưu lại BookACar (dữ liệu sẽ được lưu vào bảng BookACar)
+        bookACarRepository.save(bookACar);
+
+        // Cập nhật lại RentalContractDto với các thông tin từ BookACar
+        rentalContractDto.setPaymentMethod(bookACar.getPayment());
+        rentalContractDto.setBookACarfromDate(bookACar.getFromDate());
+        rentalContractDto.setBookACartoDate(bookACar.getToDate());
+
+        // Các trường không thay đổi trong RentalContract
+        rentalContractDto.setMaintenanceTerms(rentalContract.getMaintenanceTerms());
+        rentalContractDto.setUsageTerms(rentalContract.getUsageTerms());
+        rentalContractDto.setTerminationTerms(rentalContract.getTerminationTerms());
+        rentalContractDto.setRentalContractStatus(rentalContract.getRentalContractStatus());
+
+        // Thông tin về xe và người dùng
+        rentalContractDto.setCarName(bookACar.getCar().getName());
+        rentalContractDto.setCarColor(bookACar.getCar().getColor());
+        rentalContractDto.setCarYear(bookACar.getCar().getYear());
+        rentalContractDto.setUserName(bookACar.getUser().getName());
+        rentalContractDto.setUserEmail(bookACar.getUser().getEmail());
+
+        // Các trường cần hiển thị từ BookACar
+        rentalContractDto.setBookACarDays(bookACar.getDays());
+        rentalContractDto.setBookACarId(bookACar.getId());
+        rentalContractDto.setBookACarPrice(bookACar.getPrice());
+
+        return rentalContractDto;
     }
+
+
+
+
 
     @Override
     public List<CarDto> searchCarByName(String name) {
@@ -258,6 +294,52 @@ public class CustomerServiceImpl implements CustomerService {
 
         return carDtos;
     }
+
+
+    @Override
+    // Cập nhật BookACar
+    public boolean updateBookCar(Long bookACarId, BookACarDto bookACarDto) {
+        Optional<BookACar> bookACarOptional = bookACarRepository.findById(bookACarId);
+        if (bookACarOptional.isPresent()) {
+            BookACar bookACar = bookACarOptional.get();
+
+            // Cập nhật các trường của BookACar
+            if (bookACarDto.getPayment() != null) {
+                bookACar.setPayment(bookACarDto.getPayment());
+            }
+            if (bookACarDto.getFromDate() != null) {
+                bookACar.setFromDate(bookACarDto.getFromDate());
+            }
+            if (bookACarDto.getToDate() != null) {
+                bookACar.setToDate(bookACarDto.getToDate());
+            }
+
+            // Tính toán số ngày và giá tiền mới
+            long diffInMilliSeconds = bookACar.getToDate().getTime() - bookACar.getFromDate().getTime();
+            long days = TimeUnit.MILLISECONDS.toDays(diffInMilliSeconds);
+            bookACar.setDays(days);
+            bookACar.setPrice(bookACar.getCar().getPrice() * days);
+
+            // Cập nhật RentalContract tương ứng
+            Optional<RentalContract> rentalContractOptional = rentalCarRepository.findByBookACarId(bookACarId);
+            if (rentalContractOptional.isPresent()) {
+                RentalContract rentalContract = rentalContractOptional.get();
+                rentalContract.setMaintenanceTerms("Rent in " + days + " days");
+                rentalContract.setTerminationTerms("End in " + days);
+                rentalContract.setUsageTerms("Vehicles may only be used for personal and legal purposes.");
+                rentalContract.setRentalContractStatus(RentalContractStatus.ACCEPT);
+
+                // Lưu RentalContract
+                rentalCarRepository.save(rentalContract);
+            }
+
+            // Lưu lại BookACar
+            bookACarRepository.save(bookACar);
+            return true;
+        }
+        return false;
+    }
+
 
 
 
