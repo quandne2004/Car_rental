@@ -28,4 +28,14 @@ public class HomeServiceImpl implements HomeService{
         Optional<Car> carDto = carRepository.findById(carId);
         return carDto.map(Car::getCarDto).orElse(null);
     }
+
+    @Override
+    public List<CarDto> searchCarByName(String name) {
+
+        List<CarDto> carDtos = carRepository.findCarByNameStartsWithIgnoreCase(name).stream()
+                .map(Car::getCarDto)
+                .collect(Collectors.toList());
+
+        return carDtos;
+    }
 }

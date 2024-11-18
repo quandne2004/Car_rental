@@ -5,9 +5,11 @@ import QuanDen.demo.dto.CarDto;
 import QuanDen.demo.entity.Car;
 import QuanDen.demo.services.home.HomeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -37,4 +39,15 @@ public class HomeController {
             return ResponseEntity.ok(carDto);
         }
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CarDto>> searchCarByName(@RequestParam("name") String name) {
+        try {
+            List<CarDto> carDtos = homeService.searchCarByName(name);
+            return ResponseEntity.ok(carDtos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }
+

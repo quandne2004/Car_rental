@@ -8,4 +8,6 @@ public interface HomeService {
     List<CarDto> getAllCar();
 
     CarDto getCarById(Long carId);
+    List<CarDto> searchCarByName(String name);
+
 }
