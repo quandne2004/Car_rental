@@ -43,35 +43,47 @@ public class CustomerServiceImpl implements CustomerService {
 
         if (optionalCar.isPresent() && optionalUser.isPresent()) {
             Car existingCar = optionalCar.get();
+
+            // Check if the car is already booked
+            if (existingCar.getCarStatus() == CarStatus.BOOKED) {
+                System.out.println("The Car has already been booked!");
+                return false; // Return false if the car is already booked
+            }
+
+            // Update car status to BOOKED
+            existingCar.setCarStatus(CarStatus.BOOKED);
+            carRepository.save(existingCar); // Save the updated car status
+
+            // Create a new booking
             BookACar bookACar = new BookACar();
             bookACar.setUser(optionalUser.get());
             bookACar.setCar(existingCar);
             bookACar.setBookCarStatus(BookCarStatus.PENDING);
 
-            if (bookACar.getCar().getCarStatus() == CarStatus.BOOKED){
-                System.out.println("The Car has already Booked!");
-            }
             long diffInMilliSeconds = bookACarDto.getToDate().getTime() - bookACarDto.getFromDate().getTime();
-            long days = TimeUnit.MILLISECONDS.toDays(diffInMilliSeconds);  // Sửa lại thành MILLISECONDS
-            bookACar.setFromDate(bookACarDto.getFromDate()); // Gán giá trị từ DTO
+            long days = TimeUnit.MILLISECONDS.toDays(diffInMilliSeconds);  // Calculate days
+            bookACar.setFromDate(bookACarDto.getFromDate());
             bookACar.setToDate(bookACarDto.getToDate());
             bookACar.setPayment(bookACarDto.getPayment());
             bookACar.setDays(days);
             bookACar.setPrice(existingCar.getPrice() * days);
             BookACar bookACar1 = bookACarRepository.save(bookACar);
 
+            // Create and post rental contract
             RentalContractDto rentalContractDto = new RentalContractDto();
             rentalContractDto.setBookACarId(bookACar1.getId());
-            rentalContractDto.setMaintenanceTerms(" rent in " + days + " days ");
+            rentalContractDto.setMaintenanceTerms("Rent for " + days + " days.");
             rentalContractDto.setRentalContractStatus(RentalContractStatus.ACCEPT);
-            rentalContractDto.setTerminationTerms(" end in " + days);
-            rentalContractDto.setUsageTerms("Vehicles may only be used for personal and legal purposes.Do not use the vehicle for racing activities, overloading, or any commercial purposes (if required)." );
+            rentalContractDto.setTerminationTerms("Ends in " + days + " days.");
+            rentalContractDto.setUsageTerms("Vehicles may only be used for personal and legal purposes. Do not use the vehicle for racing activities, overloading, or any commercial purposes.");
             adminService.postContractDto(rentalContractDto);
-            return true;
+
+            return true; // Return true to indicate the booking was successful
         }
 
-        return false;
+        return false; // Return false if the car or user is not found
     }
+
 
 
     @Override
