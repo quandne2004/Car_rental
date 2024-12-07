@@ -12,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -88,6 +89,7 @@ public class AdminServiceImpl implements AdminService{
             existingCar.setColor(carDto.getColor());
             existingCar.setName(carDto.getName());
             existingCar.setBrand(carDto.getBrand());
+            existingCar.setNumberSeat(carDto.getNumberSeat());
             carRepository.save(existingCar);
             return true;
         }else {
@@ -361,6 +363,24 @@ public CarDtoListDto searchCarByName(SearchCarDto searchCarDto){
 
         return false;  // Nếu không tìm thấy hợp đồng, trả về false
     }
+
+
+
+    @Scheduled(cron = "0 0 0 * * ?")  // Kiểm tra mỗi ngày lúc 12:00 AM
+    public void checkExpiredBookingsAndUpdateCarStatus() {
+        // Lấy tất cả các booking đã hết hạn
+        List<BookACar> expiredBookings = bookACarRepository.findExpiredBookings(BookCarStatus.APPROVED);
+
+        // Duyệt qua các booking và cập nhật trạng thái xe
+        for (BookACar booking : expiredBookings) {
+            if (booking.getToDate().before(new Date())) {  // Kiểm tra xem hợp đồng đã hết hạn
+                Car bookedCar = booking.getCar();  // Lấy xe từ booking
+                bookedCar.setCarStatus(CarStatus.USE);  // Cập nhật trạng thái xe thành "USE" (sẵn sàng để đặt lại)
+                carRepository.save(bookedCar);  // Lưu thay đổi vào cơ sở dữ liệu
+            }
+        }
+    }
+
 
 
 

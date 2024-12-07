@@ -49,5 +49,17 @@ public class HomeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+
+    @GetMapping("/searchNumberSeat")
+    public ResponseEntity<List<CarDto>> searchCarByNumberSeat(@RequestParam("numberSeat") Long numberSeat) {
+        try {
+            List<CarDto> carDtos = homeService.searchByNumberSeat(numberSeat);
+            return ResponseEntity.ok(carDtos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }
 

@@ -3,6 +3,7 @@ package QuanDen.demo.controller;
 
 import QuanDen.demo.dto.*;
 import QuanDen.demo.entity.CarFix;
+import QuanDen.demo.entity.RentalContract;
 import QuanDen.demo.services.customer.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -172,6 +173,39 @@ public class CustomerController {
             Map<String, String> response = new HashMap<>();
             response.put("message", "Failed to update BookACar.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);  // Trả về lỗi
+        }
+    }
+
+
+    @GetMapping("/searchNumberSeat")
+    public ResponseEntity<List<CarDto>> searchCarByNumberSeat(@RequestParam("numberSeat") Long numberSeat) {
+        try {
+            List<CarDto> carDtos = customerService.searchByNumberSeat(numberSeat);
+            return ResponseEntity.ok(carDtos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+
+    @GetMapping("/searchBookACarId")
+    public ResponseEntity<List<RentalContractDto>> searchByBookACarId(@RequestParam("bookACarId") Long bookACarId){
+        try {
+            List<RentalContractDto> bookACarDtos = customerService.searchByBookACarId(bookACarId);
+            return ResponseEntity.ok(bookACarDtos);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/searchDays")
+    public ResponseEntity<List<BookACarDto>> searchByDays(@RequestParam("days") Long days){
+        try {
+            List<BookACarDto> bookACarDtos = customerService.searchByDays(days);
+            return ResponseEntity.ok(bookACarDtos);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 

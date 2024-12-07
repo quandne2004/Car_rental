@@ -25,4 +25,6 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     @Query("SELECT c FROM Car c WHERE upper(c.name) LIKE upper(concat(:name, '%'))")
     List<Car> findCarByNameStartsWithIgnoreCase(@Param("name") String name);
 
-}
+
+    @Query("SELECT c FROM Car c WHERE c.numberSeat = :numberSeat")
+    List<Car> findByNumberSeat(@Param("numberSeat") Long numberSeat);}

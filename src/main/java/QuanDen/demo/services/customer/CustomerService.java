@@ -1,6 +1,7 @@
 package QuanDen.demo.services.customer;
 
 import QuanDen.demo.dto.*;
+import QuanDen.demo.entity.RentalContract;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,4 +39,9 @@ public interface CustomerService {
 
     RentalContractDto updateRentalContract(Long rentalContractId, RentalContractDto rentalContractDto);
     boolean updateBookCar( Long bookACarId, BookACarDto bookACarDto);
+
+    List<CarDto> searchByNumberSeat(Long numberSeat);
+
+    List<RentalContractDto> searchByBookACarId(Long bookACarId);
+    List<BookACarDto> searchByDays(Long days);
 }

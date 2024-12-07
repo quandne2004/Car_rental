@@ -15,9 +15,9 @@ public class RentalContractDto {
 
     private Long bookACarId;
     private String paymentMethod;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")  // Đảm bảo ngày tháng đúng định dạng
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date BookACarfromDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")  // Đảm bảo rằng ngày tháng đúng định dạng
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date BookACartoDate;
     private Long BookACarDays;
     private Long BookACarPrice;

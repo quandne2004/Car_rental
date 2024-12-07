@@ -53,4 +53,5 @@ public interface AdminService {
 
     boolean changeCommentStatus(Long commentId,String status);
     boolean updateRentalContract(Long rentalContractId, RentalContractDto rentalContractDto);
+
 }

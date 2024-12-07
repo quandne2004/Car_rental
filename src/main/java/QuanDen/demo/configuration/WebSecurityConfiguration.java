@@ -33,7 +33,7 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(request ->
-                request.requestMatchers("/api/auth/**","/home","/car/**","/search").permitAll()
+                request.requestMatchers("/api/auth/**","/home","/car/**","/search","/searchNumberSeat").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyAuthority(UserRole.ADMIN.name()).
                 requestMatchers("/api/customer/**").hasAnyAuthority(UserRole.CUSTOMER.name()).anyRequest().authenticated()).sessionManagement(manager->
                 manager.sessionCreationPolicy(STATELESS)).authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

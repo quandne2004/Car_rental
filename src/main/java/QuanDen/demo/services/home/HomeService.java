@@ -10,4 +10,6 @@ public interface HomeService {
     CarDto getCarById(Long carId);
     List<CarDto> searchCarByName(String name);
 
+    List<CarDto> searchByNumberSeat(Long numberSeat);
+
 }

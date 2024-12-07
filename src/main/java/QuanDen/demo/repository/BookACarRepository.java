@@ -2,6 +2,7 @@ package QuanDen.demo.repository;
 
 import QuanDen.demo.dto.BookACarDto;
 import QuanDen.demo.entity.BookACar;
+import QuanDen.demo.entity.RentalContract;
 import QuanDen.demo.enums.BookCarStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,5 +29,12 @@ public interface BookACarRepository extends JpaRepository<BookACar,Long> {
             "GROUP BY MONTH(b.toDate) " +
             "ORDER BY MONTH(b.toDate)")
     List<Object[]> getMonthlyRevenue(BookCarStatus status);
+
+    @Query("SELECT b FROM BookACar b WHERE b.days = :days")
+    List<BookACar> searchByDays(@Param("days") Long days);
+
+    // Truy vấn các hợp đồng đã hết hạn
+    @Query("SELECT b FROM BookACar b WHERE b.toDate < CURRENT_DATE AND b.bookCarStatus != :completedStatus")
+    List<BookACar> findExpiredBookings(BookCarStatus completedStatus);
 
 }

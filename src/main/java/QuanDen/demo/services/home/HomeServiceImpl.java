@@ -38,4 +38,10 @@ public class HomeServiceImpl implements HomeService{
 
         return carDtos;
     }
+
+    @Override
+    public List<CarDto> searchByNumberSeat(Long numberSeat){
+        List<CarDto> list = carRepository.findByNumberSeat(numberSeat).stream().map(Car::getCarDto).collect(Collectors.toList());
+        return list;
+    }
 }

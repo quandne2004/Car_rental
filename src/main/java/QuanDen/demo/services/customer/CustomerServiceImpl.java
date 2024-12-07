@@ -47,12 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
             // Check if the car is already booked
             if (existingCar.getCarStatus() == CarStatus.BOOKED) {
                 System.out.println("The Car has already been booked!");
-                return false; // Return false if the car is already booked
+                return false;
             }
 
             // Update car status to BOOKED
             existingCar.setCarStatus(CarStatus.BOOKED);
-            carRepository.save(existingCar); // Save the updated car status
+            carRepository.save(existingCar);
 
             // Create a new booking
             BookACar bookACar = new BookACar();
@@ -61,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
             bookACar.setBookCarStatus(BookCarStatus.PENDING);
 
             long diffInMilliSeconds = bookACarDto.getToDate().getTime() - bookACarDto.getFromDate().getTime();
-            long days = TimeUnit.MILLISECONDS.toDays(diffInMilliSeconds);  // Calculate days
+            long days = TimeUnit.MILLISECONDS.toDays(diffInMilliSeconds);
             bookACar.setFromDate(bookACarDto.getFromDate());
             bookACar.setToDate(bookACarDto.getToDate());
             bookACar.setPayment(bookACarDto.getPayment());
@@ -73,15 +73,15 @@ public class CustomerServiceImpl implements CustomerService {
             RentalContractDto rentalContractDto = new RentalContractDto();
             rentalContractDto.setBookACarId(bookACar1.getId());
             rentalContractDto.setMaintenanceTerms("Rent for " + days + " days.");
-            rentalContractDto.setRentalContractStatus(RentalContractStatus.ACCEPT);
+            rentalContractDto.setRentalContractStatus(RentalContractStatus.PENDING);
             rentalContractDto.setTerminationTerms("Ends in " + days + " days.");
             rentalContractDto.setUsageTerms("Vehicles may only be used for personal and legal purposes. Do not use the vehicle for racing activities, overloading, or any commercial purposes.");
             adminService.postContractDto(rentalContractDto);
 
-            return true; // Return true to indicate the booking was successful
+            return true;
         }
 
-        return false; // Return false if the car or user is not found
+        return false;
     }
 
 
@@ -212,27 +212,29 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public boolean changeRentalContractStatus(Long rentalContractId,String status){
+    public boolean changeRentalContractStatus(Long rentalContractId, String status) {
         Optional<RentalContract> optional = rentalCarRepository.findById(rentalContractId);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             RentalContract rentalContract = optional.get();
             BookACar booking = rentalContract.getBookACar(); // Assuming there's a relation
 
-            if (Objects.equals(status,"Accept")){
-                rentalContract.setRentalContractStatus(RentalContractStatus.ACCEPT);
-            }else {
-                rentalContract.setRentalContractStatus(RentalContractStatus.REJECT);
-                if (booking != null) {
-                    booking.setBookCarStatus(BookCarStatus.REJECTED); // Update to CANCELED status
-                    bookACarRepository.save(booking); // Save the updated booking
+            // Check if the current status is 'PENDING' before accepting
+            if (rentalContract.getRentalContractStatus() == RentalContractStatus.PENDING) {
+                if (Objects.equals(status, "Accept")) {
+                    rentalContract.setRentalContractStatus(RentalContractStatus.ACCEPT);
+                } else if (Objects.equals(status, "Reject")) {
+                    rentalContract.setRentalContractStatus(RentalContractStatus.REJECT);
+                    if (booking != null) {
+                        booking.setBookCarStatus(BookCarStatus.REJECTED); // Update booking status
+                        bookACarRepository.save(booking); // Save the updated booking
+                    }
                 }
-                rentalCarRepository.save(rentalContract);
+                rentalCarRepository.save(rentalContract); // Save the updated rental contract
+                return true;
             }
-            return true;
         }
         return false;
     }
-
 
 
     @Override
@@ -353,6 +355,30 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
+
+
+    @Override
+    public List<CarDto> searchByNumberSeat(Long numberSeat){
+        List<CarDto> list = carRepository.findByNumberSeat(numberSeat).stream().map(Car::getCarDto).collect(Collectors.toList());
+        return list;
+    }
+
+
+
+
+    @Override
+    public List<RentalContractDto> searchByBookACarId(Long bookACarId){
+        List<RentalContractDto> list = rentalCarRepository.searchByBookACarId(bookACarId).stream().map(RentalContract::getRentalContractDto).collect(Collectors.toList());
+        return list;
+    }
+
+
+
+    @Override
+    public List<BookACarDto> searchByDays(Long days){
+        List<BookACarDto> list = bookACarRepository.searchByDays(days).stream().map(BookACar::getBookACarDto).collect(Collectors.toList());
+        return list;
+    }
 
 
 }
